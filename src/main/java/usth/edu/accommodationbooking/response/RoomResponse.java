@@ -12,18 +12,18 @@ import java.util.List;
 public class RoomResponse {
     private Long id;
     private String roomType;
-    private BigDecimal roomPrice;
+    private Integer roomPrice;
     private boolean isBooked;
     private String photo;
     private List<BookingResponse>bookings;
 
-    public RoomResponse(Long id, String roomType, BigDecimal roomPrice) {
+    public RoomResponse(Long id, String roomType, Integer roomPrice) {
         this.id = id;
         this.roomType = roomType;
         this.roomPrice = roomPrice;
     }
 
-    public RoomResponse(Long id, String roomType, BigDecimal roomPrice, boolean isBooked,
+    public RoomResponse(Long id, String roomType, Integer roomPrice, boolean isBooked,
                            byte[] photoBytes, List<BookingResponse> bookings) {
         this.id = id;
         this.roomType = roomType;

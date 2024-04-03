@@ -20,7 +20,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String roomType;
-    private BigDecimal roomPrice;
+    private Integer roomPrice;
     private boolean isBooked = false;
     @Lob
     private Blob photo;
