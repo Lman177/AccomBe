@@ -5,8 +5,17 @@ import usth.edu.accommodationbooking.model.Room;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public interface IRoomService {
 
-    Room addNewRoom(MultipartFile photo, String roomType, Integer roomPrice) throws SQLException, IOException;
+    public Room addNewRoom(MultipartFile photo, String roomType, Integer roomPrice) throws SQLException, IOException;
+
+    byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException;
+
+    List<String> getAllRoomTypes();
+
+    List<Room> getAllRooms();
+
+
 }

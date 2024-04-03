@@ -24,6 +24,8 @@ public class BookingResponse {
     private String bookingConfirmationCode;
     private RoomResponse room;
 
+
+
     public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate,
                            String bookingConfirmationCode) {
         this.id = id;
