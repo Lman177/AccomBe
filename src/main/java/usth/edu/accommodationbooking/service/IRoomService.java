@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IRoomService {
 
-    public Room addNewRoom(MultipartFile photo, String roomType, Integer roomPrice) throws SQLException, IOException;
+    Room addNewRoom(MultipartFile photo, String roomType, Integer roomPrice) throws SQLException, IOException;
 
     byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException;
 
