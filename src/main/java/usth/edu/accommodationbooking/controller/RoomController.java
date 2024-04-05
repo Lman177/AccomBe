@@ -2,6 +2,7 @@ package usth.edu.accommodationbooking.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/room")
+@RequestMapping("/rooms")
+@CrossOrigin(origins = "http://localhost:5174")
 public class RoomController {
     private final IRoomService roomService;
     private final BookingService bookingService;
@@ -37,7 +39,7 @@ public class RoomController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/room/types")
+    @GetMapping("/room-types")
     public List<String> getRoomTypes(){
         return roomService.getAllRoomTypes();
     }
@@ -55,6 +57,11 @@ public class RoomController {
             }
         }
         return ResponseEntity.ok(roomResponses);
+    }
+    @DeleteMapping("/delete/room/{roomId}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable("roomId") Long roomId){
+        roomService.deleteRoom(roomId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     private RoomResponse getRoomResponse(Room room) {
