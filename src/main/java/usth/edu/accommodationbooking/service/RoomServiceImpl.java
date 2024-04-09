@@ -3,6 +3,7 @@ package usth.edu.accommodationbooking.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import usth.edu.accommodationbooking.exception.InternalSeverException;
 import usth.edu.accommodationbooking.exception.ResourceNotFoundException;
 import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.repository.RoomRepository;
@@ -42,6 +43,25 @@ public class RoomServiceImpl implements IRoomService {
         if(theRoom.isPresent()){
             roomRepository.deleteById(roomId);
         }
+    }
+
+    @Override
+    public Room updateRoom(Long roomId, String roomType, Integer roomPrice, byte[] photoBytes) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new ResourceNotFoundException("Sorry, Room not found"));
+        if(roomType != null ) room.setRoomType(roomType);
+        if (roomPrice != null) room.setRoomPrice(roomPrice);
+            try{
+                    room.setPhoto(new SerialBlob(photoBytes));
+            } catch (SQLException e) {
+                throw new InternalSeverException("Error updating Room");
+            }
+        return roomRepository.save(room);
+    }
+
+    @Override
+    public Optional<Room> getRoomById(Long roomId) {
+        return Optional.of(roomRepository.findById(roomId).get());
     }
 
     @Override
