@@ -2,12 +2,13 @@ package usth.edu.accommodationbooking.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 @Entity
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookedRoom {
@@ -46,24 +47,18 @@ public class BookedRoom {
     @JoinColumn(name = "room_id")
     private Room room;
 
-
-
-
     public void calculateTotalNumOfGuests() {
         this.totalNumOfGuests = this.NumberOfAdults + this.NumberOfChildren;
     }
-
 
     public void setNumberOfAdults(int numberOfAdults) {
         NumberOfAdults = numberOfAdults;
         calculateTotalNumOfGuests();
     }
-
     public void setNumberOfChildren(int numberOfChildren) {
         NumberOfChildren = numberOfChildren;
         calculateTotalNumOfGuests();
     }
-
     public void setBookingConfirmationCode(String bookingConfirmationCode) {
         this.bookingConfirmationCode = bookingConfirmationCode;
     }
