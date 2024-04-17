@@ -1,4 +1,4 @@
-package usth.edu.accommodationbooking.Config;
+package usth.edu.accommodationbooking.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

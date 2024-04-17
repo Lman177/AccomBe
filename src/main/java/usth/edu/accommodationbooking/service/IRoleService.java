@@ -5,7 +5,7 @@ import usth.edu.accommodationbooking.model.Role;
 import usth.edu.accommodationbooking.model.User;
 
 import java.util.List;
-@Service
+
 public interface IRoleService {
     List<Role> getRoles();
     Role createRole(Role theRole);

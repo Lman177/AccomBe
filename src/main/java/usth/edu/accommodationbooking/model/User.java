@@ -18,11 +18,21 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
+
+    @Column(name = "first-name")
     private String firstName;
+
+    @Column(name = "last-name")
     private String lastName;
+
+    @Column(name = "user-email")
     private String email;
+
+    @Column(name = "password")
     private String password;
+
     @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.PERSIST,
                     CascadeType.MERGE, CascadeType.DETACH})
@@ -31,6 +41,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    private List<Room> rooms;
 
 
 }

@@ -18,15 +18,31 @@ import java.util.List;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
+
+    @Column(name = "room_type")
     private String roomType;
+
+    @Column(name = "room_price")
     private Integer roomPrice;
+
+    @Column(name = "room_status")
     private boolean isBooked = false;
+
     @Lob
+    @Column(name = "room_photo")
     private Blob photo;
+
+    @Column(name = "room_description")
+    private String description;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "room")
     private List<BookedRoom> bookings;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id")
+    private User owner;
 
     public Room() {
         this.bookings = new ArrayList<>();
