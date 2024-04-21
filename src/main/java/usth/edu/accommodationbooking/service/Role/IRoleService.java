@@ -1,4 +1,4 @@
-package usth.edu.accommodationbooking.service;
+package usth.edu.accommodationbooking.service.Role;
 
 import org.springframework.stereotype.Service;
 import usth.edu.accommodationbooking.model.Role;

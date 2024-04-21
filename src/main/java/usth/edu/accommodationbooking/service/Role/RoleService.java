@@ -1,20 +1,20 @@
-package usth.edu.accommodationbooking.service;
+package usth.edu.accommodationbooking.service.Role;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import usth.edu.accommodationbooking.exception.RoleAlreadyExistException;
 import usth.edu.accommodationbooking.model.Role;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.repository.RoleRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
+import usth.edu.accommodationbooking.service.User.UserService;
 
 import java.util.List;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
-public class RoleService implements IRoleService{
+public class RoleService implements IRoleService {
     private final RoleRepository roleRepository;
     private final UserService userService;
     private final UserRepository userRepository;

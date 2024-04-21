@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import usth.edu.accommodationbooking.exception.RoleAlreadyExistException;
 import usth.edu.accommodationbooking.model.Role;
 import usth.edu.accommodationbooking.model.User;
-import usth.edu.accommodationbooking.service.IRoleService;
+import usth.edu.accommodationbooking.service.Role.IRoleService;
 
 import java.util.List;
 

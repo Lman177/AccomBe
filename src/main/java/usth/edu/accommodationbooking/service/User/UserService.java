@@ -1,4 +1,4 @@
-package usth.edu.accommodationbooking.service;
+package usth.edu.accommodationbooking.service.User;
 
 
 import jakarta.transaction.Transactional;
@@ -12,6 +12,7 @@ import usth.edu.accommodationbooking.model.Role;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.repository.RoleRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
+import usth.edu.accommodationbooking.service.User.IUserService;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +26,7 @@ public class UserService implements IUserService {
     private final RoleRepository roleRepository;
 
     @Override
-    public User registerUser(User user) {
+    public void registerUser(User user) {
         if (userRepository.existsByEmail(user.getEmail())){
             throw new UserAlreadyExistsException(user.getEmail() + " already exists");
         }
@@ -33,7 +34,7 @@ public class UserService implements IUserService {
         System.out.println(user.getPassword());
         Role userRole = roleRepository.findByName("ROLE_USER").get();
         user.setRoles(Collections.singletonList(userRole));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Override

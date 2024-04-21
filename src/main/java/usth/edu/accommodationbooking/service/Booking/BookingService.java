@@ -1,18 +1,18 @@
-package usth.edu.accommodationbooking.service;
+package usth.edu.accommodationbooking.service.Booking;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import usth.edu.accommodationbooking.exception.InvalidBookingRequestException;
 import usth.edu.accommodationbooking.model.BookedRoom;
 import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.repository.BookingRepository;
+import usth.edu.accommodationbooking.service.Room.IRoomService;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class BookingService implements IBookingService{
+public class BookingService implements IBookingService {
     private final BookingRepository bookingRepository;
     private final IRoomService roomService;
     @Override

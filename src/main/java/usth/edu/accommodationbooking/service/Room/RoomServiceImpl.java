@@ -1,4 +1,4 @@
-package usth.edu.accommodationbooking.service;
+package usth.edu.accommodationbooking.service.Room;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class RoomServiceImpl implements IRoomService {
     private final RoomRepository roomRepository;
     @Override
-    public Room addNewRoom(MultipartFile file, String roomType, Integer roomPrice) throws SQLException, IOException {
+    public Room addNewRoom(MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
         Room room = new Room();
         room.setRoomType(roomType);
         room.setRoomPrice(roomPrice);
@@ -29,6 +29,7 @@ public class RoomServiceImpl implements IRoomService {
             Blob photoBlob = new SerialBlob(photoBytes);
             room.setPhoto(photoBlob);
         }
+        room.setDescription(description);
         return roomRepository.save(room);
     }
 

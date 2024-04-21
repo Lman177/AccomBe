@@ -10,8 +10,8 @@ import usth.edu.accommodationbooking.model.BookedRoom;
 import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.response.BookingResponse;
 import usth.edu.accommodationbooking.response.RoomResponse;
-import usth.edu.accommodationbooking.service.IBookingService;
-import usth.edu.accommodationbooking.service.IRoomService;
+import usth.edu.accommodationbooking.service.Booking.IBookingService;
+import usth.edu.accommodationbooking.service.Room.IRoomService;
 
 import java.util.ArrayList;
 import java.util.List;

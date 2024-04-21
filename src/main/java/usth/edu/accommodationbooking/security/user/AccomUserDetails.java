@@ -15,54 +15,57 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class RoomUserDetails implements UserDetails {
+public class AccomUserDetails implements UserDetails {
     private Long id;
     private String email;
     private String password;
     private Collection<GrantedAuthority> authorities;
 
-    public static RoomUserDetails buildUserDetails(User user) {
+    public static AccomUserDetails buildUserDetails(User user){
         List<GrantedAuthority> authorities = user.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
-        return new RoomUserDetails(user.getId(),
+        return new AccomUserDetails(
+                user.getId(),
                 user.getEmail(),
                 user.getPassword(),
                 authorities);
+
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package usth.edu.accommodationbooking.service;
+package usth.edu.accommodationbooking.service.Booking;
 
 import usth.edu.accommodationbooking.model.BookedRoom;
 
