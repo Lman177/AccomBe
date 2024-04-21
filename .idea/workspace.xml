@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7f56217c-7147-424f-81e4-7430e6868eae" name="Changes" comment="implement user-role authentication and authorization">
+    <list default="true" id="7f56217c-7147-424f-81e4-7430e6868eae" name="Changes" comment="add sth">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/usth/edu/accommodationbooking/service/Room/RoomServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/usth/edu/accommodationbooking/service/Room/RoomServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +150,7 @@
       <workItem from="1713458965794" duration="3000" />
       <workItem from="1713609812925" duration="3778000" />
       <workItem from="1713625781513" duration="8414000" />
-      <workItem from="1713670848099" duration="5158000" />
+      <workItem from="1713670848099" duration="6256000" />
     </task>
     <task id="LOCAL-00001" summary="Delete security and fix room price null">
       <option name="closed" value="true" />
@@ -209,7 +208,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713681611932</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add sth">
+      <option name="closed" value="true" />
+      <created>1713683535520</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1713683535520</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -233,7 +240,8 @@
     <MESSAGE value="update room api" />
     <MESSAGE value="connect user to room and begin authorizing with GrantedAuthority" />
     <MESSAGE value="implement user-role authentication and authorization" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement user-role authentication and authorization" />
+    <MESSAGE value="add sth" />
+    <option name="LAST_COMMIT_MESSAGE" value="add sth" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
