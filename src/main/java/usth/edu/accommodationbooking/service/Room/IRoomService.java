@@ -10,11 +10,12 @@ import java.util.Optional;
 
 public interface IRoomService {
 
-    Room addNewRoom(MultipartFile photo, String roomType, Integer roomPrice, String description) throws SQLException, IOException;
 
     byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException;
 
     List<String> getAllRoomTypes();
+
+    Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException;
 
     List<Room> getAllRooms();
 

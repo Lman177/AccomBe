@@ -66,7 +66,8 @@ public class BookedRoomController {
         RoomResponse room = new RoomResponse(
                 theRoom.getId(),
                 theRoom.getRoomType(),
-                theRoom.getRoomPrice());
+                theRoom.getRoomPrice(),
+                theRoom.getDescription());
         return new BookingResponse(
                 booking.getBookingId(), booking.getCheckInDate(),
                 booking.getCheckOutDate(),booking.getGuestFullName(),

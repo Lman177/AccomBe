@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.service.User.IUserService;
 
@@ -23,7 +24,6 @@ public class UserController {
     @GetMapping("/all")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<User>> getUsers(){
-
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.FOUND);
     }
 
@@ -51,4 +51,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting user: " + e.getMessage());
         }
     }
+
 }

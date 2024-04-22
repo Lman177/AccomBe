@@ -1,12 +1,15 @@
 package usth.edu.accommodationbooking.service.Room;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.exception.InternalSeverException;
 import usth.edu.accommodationbooking.exception.ResourceNotFoundException;
 import usth.edu.accommodationbooking.model.Room;
+import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.repository.RoomRepository;
+import usth.edu.accommodationbooking.repository.UserRepository;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
@@ -19,11 +22,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements IRoomService {
     private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
+
     @Override
-    public Room addNewRoom(MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
+    public Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
+        User owner = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
         Room room = new Room();
         room.setRoomType(roomType);
         room.setRoomPrice(roomPrice);
+        room.setOwner(owner);
         if(!file.isEmpty()){
             byte[] photoBytes = file.getBytes();
             Blob photoBlob = new SerialBlob(photoBytes);
@@ -35,7 +42,9 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public List<Room> getAllRooms() {
+
         return roomRepository.findAll();
+
     }
 
     @Override
@@ -82,6 +91,8 @@ public class RoomServiceImpl implements IRoomService {
     public List<String> getAllRoomTypes() {
         return roomRepository.findDistinctRoomTypes();
     }
+
+
 
 //    @Override
 //    public List<String> getAllRoomTypes() {
