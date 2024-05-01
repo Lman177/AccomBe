@@ -1,5 +1,12 @@
 package usth.edu.accommodationbooking.service.RoomType;
 
-public interface RoomTypeServiceImp {
+import usth.edu.accommodationbooking.model.RoomType;
 
+import java.util.List;
+
+public interface IRoomTypeService {
+
+    RoomType createRoomType(RoomType theType);
+
+    List<RoomType> getRoomTypes();
 }

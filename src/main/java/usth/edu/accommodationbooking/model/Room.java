@@ -21,8 +21,8 @@ public class Room {
 
     private Long id;
 
-    @Column(name = "room_type")
-    private String roomType;
+//    @Column(name = "room_type")
+//    private String roomType;
 
     @Column(name = "room_price")
     private Integer roomPrice;
@@ -44,6 +44,10 @@ public class Room {
     @JoinColumn(name = "owner_id")
     private User owner;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_type")
+    private RoomType roomTypeName;
+
     public Room() {
         this.bookings = new ArrayList<>();
     }
@@ -58,5 +62,6 @@ public class Room {
         String bookingCode = RandomStringUtils.randomNumeric(10);
         booking.setBookingConfirmationCode(bookingCode);
     }
+
 
 }

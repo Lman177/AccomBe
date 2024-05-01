@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/bookings")
-public class BookedRoomController {
+public class BookingController {
     private final IBookingService bookingService;
     private final IRoomService roomService;
     @GetMapping("all-bookings")
@@ -65,7 +65,7 @@ public class BookedRoomController {
         Room theRoom = roomService.getRoomById(booking.getRoom().getId()).get();
         RoomResponse room = new RoomResponse(
                 theRoom.getId(),
-                theRoom.getRoomType(),
+                theRoom.getRoomTypeName(),
                 theRoom.getRoomPrice(),
                 theRoom.getDescription());
         return new BookingResponse(

@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.exception.PhotoRetrivalException;
@@ -16,11 +16,11 @@ import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.response.BookingResponse;
 import usth.edu.accommodationbooking.response.RoomResponse;
-import usth.edu.accommodationbooking.security.user.AccomUserDetails;
+//import usth.edu.accommodationbooking.security.user.AccomUserDetails;
 import usth.edu.accommodationbooking.service.Booking.BookingService;
 import usth.edu.accommodationbooking.service.Room.IRoomService;
 import usth.edu.accommodationbooking.service.Room.RoomServiceImpl;
-import usth.edu.accommodationbooking.service.User.UserService;
+//import usth.edu.accommodationbooking.service.User.UserService;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
@@ -33,7 +33,6 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rooms")
-@CrossOrigin(origins = "*")
 public class RoomController {
     private final IRoomService roomService;
     private final BookingService bookingService;
@@ -41,22 +40,23 @@ public class RoomController {
     @PostMapping("/add/new-room")
     public ResponseEntity<RoomResponse> addNewRoom(
             @RequestParam("photo") MultipartFile photo,
-            @RequestParam("roomType") String roomType,
+            @RequestParam("roomTypeName") String roomTypeName,
             @RequestParam("roomPrice") Integer roomPrice,
             @RequestParam("description") String description) throws SQLException, IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        AccomUserDetails userDetails = (AccomUserDetails) authentication.getPrincipal();
-        Long userId = userDetails.getUserId(); // Cast to your User class and get the ID
-        Room savedRoom = RoomService.addNewRoom(userId ,photo, roomType, roomPrice, description);
-        RoomResponse response = new RoomResponse(savedRoom.getId(), savedRoom.getRoomType(),
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        AccomUserDetails userDetails = (AccomUserDetails) authentication.getPrincipal();
+//        Long userId = userDetails.getUserId(); // Cast to your User class and get the ID
+//        Room savedRoom = RoomService.addNewRoom(userId ,photo, roomType, roomPrice, description);
+        Room savedRoom = RoomService.addNewRoom(photo, roomTypeName, roomPrice, description);
+        RoomResponse response = new RoomResponse(savedRoom.getId(), savedRoom.getRoomTypeName(),
                 savedRoom.getRoomPrice(), savedRoom.getDescription());
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/room-types")
-    public List<String> getRoomTypes(){
-        return roomService.getAllRoomTypes();
-    }
+//    @GetMapping("/room-types")
+//    public List<String> getRoomTypes(){
+//        return roomService.getAllRoomTypes();
+//    }
     @GetMapping("/all-rooms")
     public ResponseEntity<List<RoomResponse>> getAllRooms() throws SQLException {
         List<Room> rooms = roomService.getAllRooms();
@@ -124,7 +124,7 @@ public class RoomController {
             }
         }
         return new RoomResponse(room.getId(),
-                room.getRoomType(), room.getRoomPrice(),
+                room.getRoomTypeName(), room.getRoomPrice(),
                 room.isBooked(), photoBytes,room.getDescription(), bookingInfo);
     }
 

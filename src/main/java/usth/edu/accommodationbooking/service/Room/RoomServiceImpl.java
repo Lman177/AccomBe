@@ -7,8 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.exception.InternalSeverException;
 import usth.edu.accommodationbooking.exception.ResourceNotFoundException;
 import usth.edu.accommodationbooking.model.Room;
+import usth.edu.accommodationbooking.model.RoomType;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.repository.RoomRepository;
+import usth.edu.accommodationbooking.repository.RoomTypeRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -23,14 +25,21 @@ import java.util.Optional;
 public class RoomServiceImpl implements IRoomService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final RoomTypeRepository roomTypeRepository;
 
     @Override
-    public Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
-        User owner = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+//    public Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
+    public Room addNewRoom(MultipartFile file, String roomTypeName, Integer roomPrice, String description) throws SQLException, IOException {
+//        User owner = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
         Room room = new Room();
-        room.setRoomType(roomType);
+        RoomType roomType = roomTypeRepository.findByName(roomTypeName);
+        if(roomType == null){
+            throw new ResourceNotFoundException("Room Type not found");
+        }
+        // Set RoomType for the room
+        room.setRoomTypeName(roomType);
         room.setRoomPrice(roomPrice);
-        room.setOwner(owner);
+//        room.setOwner(owner);
         if(!file.isEmpty()){
             byte[] photoBytes = file.getBytes();
             Blob photoBlob = new SerialBlob(photoBytes);
@@ -42,7 +51,6 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public List<Room> getAllRooms() {
-
         return roomRepository.findAll();
 
     }
@@ -56,10 +64,11 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public Room updateRoom(Long roomId, String roomType, Integer roomPrice, byte[] photoBytes) {
+    public Room updateRoom(Long roomId, String roomTypeName, Integer roomPrice, byte[] photoBytes) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Sorry, Room not found"));
-        if(roomType != null ) room.setRoomType(roomType);
+        RoomType roomType = roomTypeRepository.findByName(roomTypeName);
+        if(roomTypeName != null ) room.setRoomTypeName(roomType);
         if (roomPrice != null) room.setRoomPrice(roomPrice);
             try{
                     room.setPhoto(new SerialBlob(photoBytes));
@@ -87,10 +96,10 @@ public class RoomServiceImpl implements IRoomService {
         return null;
     }
 
-    @Override
-    public List<String> getAllRoomTypes() {
-        return roomRepository.findDistinctRoomTypes();
-    }
+//    @Override
+//    public List<String> getAllRoomTypes() {
+//        return roomRepository.findDistinctRoomTypes();
+//    }
 
 
 

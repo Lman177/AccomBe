@@ -2,6 +2,7 @@ package usth.edu.accommodationbooking.service.Room;
 
 import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.model.Room;
+import usth.edu.accommodationbooking.model.RoomType;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,9 +14,10 @@ public interface IRoomService {
 
     byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException;
 
-    List<String> getAllRoomTypes();
+//    List<String> getAllRoomTypes();
 
-    Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException;
+    Room addNewRoom(MultipartFile file, String roomTypeName, Integer roomPrice, String description) throws SQLException, IOException;
+//    Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException;
 
     List<Room> getAllRooms();
 
