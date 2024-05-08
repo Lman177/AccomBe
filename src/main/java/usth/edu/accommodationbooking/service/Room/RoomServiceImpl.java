@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.exception.InternalSeverException;
 import usth.edu.accommodationbooking.exception.ResourceNotFoundException;
 import usth.edu.accommodationbooking.model.Room;
-import usth.edu.accommodationbooking.model.User;
+//import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
 
@@ -25,12 +25,12 @@ public class RoomServiceImpl implements IRoomService {
     private final UserRepository userRepository;
 
     @Override
-    public Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
-        User owner = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+    public Room addNewRoom( MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
+//        User owner = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
         Room room = new Room();
         room.setRoomType(roomType);
         room.setRoomPrice(roomPrice);
-        room.setOwner(owner);
+//        room.setOwner(owner);
         if(!file.isEmpty()){
             byte[] photoBytes = file.getBytes();
             Blob photoBlob = new SerialBlob(photoBytes);

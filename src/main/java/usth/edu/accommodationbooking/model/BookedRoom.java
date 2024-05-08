@@ -1,5 +1,7 @@
 package usth.edu.accommodationbooking.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,9 +34,11 @@ public class BookedRoom {
     private String guestPhone;
 
     @Column(name = "adults")
+    @JsonProperty("NumberOfAdults")
     private int NumberOfAdults;
 
     @Column(name = "children")
+    @JsonProperty("NumberOfChildren")
     private int NumberOfChildren;
 
     @Column(name = "total_guests")
@@ -61,9 +65,5 @@ public class BookedRoom {
     }
     public void setBookingConfirmationCode(String bookingConfirmationCode) {
         this.bookingConfirmationCode = bookingConfirmationCode;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
     }
 }
