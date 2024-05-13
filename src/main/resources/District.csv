@@ -1,0 +1,12 @@
+INSERT INTO accom.location(district, city) VALUES ('Ba Đình', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Bắc Từ Liêm', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Cầu Giấy', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Đống Đa', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Hà Đông', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Hai Bà Trưng', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Hoàn Kiếm', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Hoàng Mai', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Long Biên', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Nam Từ Liêm', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Tây Hồ', 'Hà Nội');
+INSERT INTO accom.location(district, city) VALUES ('Thanh Xuân', 'Hà Nội');

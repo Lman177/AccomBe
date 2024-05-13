@@ -28,7 +28,7 @@ public class RoomTypeController {
     }
     @GetMapping("/all-room-types")
     public ResponseEntity<List<RoomType>> getAllRoomTypes(){
-        return new ResponseEntity<>(roomTypeService.getRoomTypes(), HttpStatus.FOUND);
+        return new ResponseEntity<>(roomTypeService.getRoomTypes(), HttpStatus.OK);
     }
 
 

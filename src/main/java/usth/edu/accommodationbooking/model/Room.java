@@ -3,11 +3,10 @@ package usth.edu.accommodationbooking.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 import org.apache.commons.lang3.RandomStringUtils;
 
-import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,8 @@ public class Room {
 
     private Long id;
 
-//    @Column(name = "room_type")
-//    private String roomType;
+    @Column(name = "room_address")
+    private String roomAddress;
 
     @Column(name = "room_price")
     private Integer roomPrice;
@@ -47,6 +46,10 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_type")
     private RoomType roomTypeName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_location")
+    private Location roomLocation;
 
     public Room() {
         this.bookings = new ArrayList<>();
