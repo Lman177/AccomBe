@@ -112,7 +112,7 @@ public class RoomController {
             @RequestParam("checkOutDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate checkOutDate,
             @RequestParam("roomType") String roomType,
             @RequestParam("roomLocation") String roomLocation) throws SQLException {
-        List<Room> availableRooms = roomService.getAllAvailableRooms(checkInDate, checkOutDate, roomType, roomLocation);
+            List<Room> availableRooms = roomService.getAllAvailableRooms(checkInDate, checkOutDate, roomType, roomLocation);
         List<RoomResponse> roomResponses = new ArrayList<>();
         for (Room room : availableRooms){
             byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
