@@ -1,5 +1,6 @@
 package usth.edu.accommodationbooking.controller;
 
+import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class RoomTypeController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(re.getMessage());
         }
     }
+    @PermitAll
     @GetMapping("/all-room-types")
     public ResponseEntity<List<RoomType>> getAllRoomTypes(){
         return new ResponseEntity<>(roomTypeService.getRoomTypes(), HttpStatus.OK);

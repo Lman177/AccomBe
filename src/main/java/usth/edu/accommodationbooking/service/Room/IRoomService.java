@@ -16,7 +16,7 @@ public interface IRoomService {
 
 //    List<String> getAllRoomTypes();
 
-    Room addNewRoom(MultipartFile file, String roomTypeName, Integer roomPrice, String description, String roomLocation, String roomAddress) throws SQLException, IOException;
+    Room addNewRoom(Long userId, MultipartFile file, String roomTypeName, Integer roomPrice, String description, String roomLocation, String roomAddress) throws SQLException, IOException;
 //    Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException;
 
     List<Room> getAllRooms();

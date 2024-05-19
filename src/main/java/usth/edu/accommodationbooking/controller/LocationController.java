@@ -1,5 +1,6 @@
 package usth.edu.accommodationbooking.controller;
 
+import jakarta.annotation.security.PermitAll;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocationController {
     private final LocationService locationService;
+    @PermitAll
     @GetMapping("/all")
     public ResponseEntity<List<Location>> getAllLocations(){
         return new ResponseEntity<>(locationService.getLocations(), HttpStatus.OK);
