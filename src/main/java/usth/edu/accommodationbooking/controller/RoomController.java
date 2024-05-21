@@ -39,6 +39,7 @@ public class RoomController {
     private final IRoomService roomService;
     private final BookingService bookingService;
     private final RoomServiceImpl RoomService;
+
     @PostMapping("/add/new-room")
     public ResponseEntity<RoomResponse> addNewRoom(
             @RequestParam("roomTypeName") String roomTypeName,
@@ -52,8 +53,15 @@ public class RoomController {
         Long userId = userDetails.getUserId(); // Cast to your User class and get the ID
 //        Room savedRoom = RoomService.addNewRoom(userId ,photo, roomType, roomPrice, description);
         Room savedRoom = RoomService.addNewRoom(userId, photo, roomTypeName, roomPrice, description, roomLocation, roomAddress);
-        RoomResponse response = new RoomResponse(savedRoom.getId(), savedRoom.getRoomTypeName(),
-                savedRoom.getRoomPrice(), savedRoom.getDescription(), savedRoom.getRoomLocation().getLocationName(), savedRoom.getRoomAddress());
+        RoomResponse response = new RoomResponse(
+                savedRoom.getId(),
+                savedRoom.getRoomTypeName(),
+                savedRoom.getRoomPrice(),
+                savedRoom.getDescription(),
+                savedRoom.getRoomLocation().getLocationName(),
+                userId,
+                savedRoom.getRoomAddress()
+                );
         return ResponseEntity.ok(response);
     }
 //
@@ -151,7 +159,7 @@ public class RoomController {
         }
         return new RoomResponse(room.getId(),
                 room.getRoomTypeName(), room.getRoomPrice(),
-                room.isBooked(),room.getDescription(), room.getRoomLocation(), room.getRoomAddress(), photoBytes, bookingInfo);
+                room.isBooked(),room.getDescription(), room.getRoomLocation(), room.getRoomAddress(), photoBytes, room.getOwner().getId(), bookingInfo);
     }
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);

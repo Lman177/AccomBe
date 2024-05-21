@@ -20,9 +20,13 @@ public class RoomResponse {
     private String description;
     private String roomLocation;
     private String roomAddress;
+    private Long ownerId;
     private List<BookingResponse>bookings;
 
-    public RoomResponse(Long id, RoomType roomTypeName, Integer roomPrice, String description) {
+    public RoomResponse(Long id,
+                        RoomType roomTypeName,
+                        Integer roomPrice,
+                        String description) {
         this.id = id;
         this.roomTypeName = roomTypeName;
         this.roomPrice = roomPrice;
@@ -30,7 +34,10 @@ public class RoomResponse {
     }
 
     public RoomResponse(Long id, RoomType roomTypeName, Integer roomPrice, boolean isBooked,
-                        String description, Location roomLocation, String roomAddress,byte[] photoBytes, List<BookingResponse> bookings) {
+                        String description, Location roomLocation,
+                        String roomAddress,byte[] photoBytes,
+                        Long ownerId,
+                        List<BookingResponse> bookings) {
         this.id = id;
         this.roomTypeName = roomTypeName;
         this.roomPrice = roomPrice;
@@ -39,16 +46,18 @@ public class RoomResponse {
         this.roomLocation = roomLocation.getLocationName();
         this.roomAddress = roomAddress;
         this.photo = photoBytes != null ? Base64.encodeBase64String(photoBytes) : null;
+        this.ownerId = ownerId;
         this.bookings = bookings;
     }
 
 
-    public RoomResponse(Long id, RoomType roomTypeName, Integer roomPrice, String description, String district, String roomAddress) {
+    public RoomResponse(Long id, RoomType roomTypeName, Integer roomPrice, String description, String district,Long ownerId, String roomAddress) {
         this.id = id;
         this.roomTypeName = roomTypeName;
         this.roomPrice = roomPrice;
         this.description = description;
         this.roomLocation = district;
+        this.ownerId = ownerId;
         this.roomAddress = roomAddress;
     }
 }
