@@ -1,5 +1,6 @@
 package usth.edu.accommodationbooking.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,7 @@ public class Room {
 
     @Lob
     @Column(name = "room_photo")
+    @JsonIgnore
     private Blob photo;
 
     @Column(name = "room_description")
