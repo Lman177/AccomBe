@@ -135,6 +135,21 @@ public class RoomController {
         }
 
     }
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<RoomResponse>> getRoomsByUserId(@PathVariable Long userId) throws SQLException {
+        List<Room> rooms = roomService.getRoomsByUserId(userId);
+        List<RoomResponse> roomResponses = new ArrayList<>();
+        for (Room room : rooms){
+            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+            if (photoBytes != null && photoBytes.length > 0){
+                String base64Photo = Base64.encodeBase64String(photoBytes);
+                RoomResponse roomResponse = getRoomResponse(room);
+                roomResponse.setPhoto(base64Photo);
+                roomResponses.add(roomResponse);
+            }
+        }
+        return ResponseEntity.ok(roomResponses);
+    }
     private RoomResponse getRoomResponse(Room room) {
         List<BookedRoom> bookings = getAllBookingsByRoomId(room.getId());
         // Check if bookings is null and initialize to empty list if necessary
@@ -163,6 +178,5 @@ public class RoomController {
     }
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);
-
     }
 }

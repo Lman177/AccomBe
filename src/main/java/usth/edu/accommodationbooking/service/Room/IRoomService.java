@@ -31,4 +31,6 @@ public interface IRoomService {
 
 
     List<Room> getAllAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation);
+
+    List<Room> getRoomsByUserId(Long userId);
 }

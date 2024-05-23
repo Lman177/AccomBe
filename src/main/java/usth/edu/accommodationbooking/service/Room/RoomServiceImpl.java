@@ -102,6 +102,11 @@ public class RoomServiceImpl implements IRoomService {
         return roomRepository.findAvaRoomByDate_Type_Location(checkInDate, checkOutDate, roomType, roomLocation);
     }
 
+    @Override
+    public List<Room> getRoomsByUserId(Long userId) {
+        return roomRepository.findByOwnerId(userId);
+    }
+
 
     @Override
     public byte[] getRoomPhotoByRoomId(Long roomId) throws SQLException {
