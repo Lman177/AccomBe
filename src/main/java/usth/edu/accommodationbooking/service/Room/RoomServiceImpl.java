@@ -1,6 +1,7 @@
 package usth.edu.accommodationbooking.service.Room;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,14 +65,24 @@ public class RoomServiceImpl implements IRoomService {
         return roomRepository.findAll();
 
     }
-
+    @Transactional
     @Override
     public void deleteRoom(Long roomId) {
         Optional<Room> theRoom = roomRepository.findById(roomId);
         if(theRoom.isPresent()){
+            Room room = theRoom.get();
+            // Clear user-room relationships
+            User owner = room.getOwner();
+            if (owner != null) {
+                owner.getRooms().remove(room);
+                userRepository.save(owner);
+            }
+
+            // Delete the room
             roomRepository.deleteById(roomId);
         }
     }
+
 
     @Override
     public Room updateRoom(Long roomId, String roomTypeName, Integer roomPrice,String description, String roomLocation, String roomAddress, byte[] photoBytes ) {

@@ -9,10 +9,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import usth.edu.accommodationbooking.exception.UserAlreadyExistsException;
 import usth.edu.accommodationbooking.model.Role;
+import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.repository.RoleRepository;
+import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
-import usth.edu.accommodationbooking.service.User.IUserService;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final RoomRepository roomRepository;
 
     @Override
     public void registerUser(User user) {
@@ -47,8 +49,20 @@ public class UserService implements IUserService {
     @Override
     public void deleteUser(String email) {
         User theUser = getUser(email);
-        if (theUser != null){
-            userRepository.deleteByEmail(email);
+        if (theUser != null) {
+            // Step 1: Clear user-role relationships
+            theUser.getRoles().clear();
+            userRepository.save(theUser);
+
+            // Step 2: Handle user-room relationships
+            List<Room> rooms = roomRepository.findByOwnerId(theUser.getId());
+            for (Room room : rooms) {
+                // Alternatively, delete the rooms if that makes more sense for your application
+                roomRepository.delete(room);
+            }
+
+            // Step 3: Delete the user
+            userRepository.delete(theUser);
         }
     }
     @Override

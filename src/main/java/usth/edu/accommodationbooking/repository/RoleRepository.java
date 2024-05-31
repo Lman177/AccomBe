@@ -1,6 +1,8 @@
 package usth.edu.accommodationbooking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import usth.edu.accommodationbooking.model.Role;
 
 import java.util.Optional;

@@ -33,6 +33,8 @@ public class JwtUtils {
                 .map(GrantedAuthority::getAuthority).toList();
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
+//                .setId(userPrincipal.getId().toString())\
+                .claim("userId", userPrincipal.getId()) // Add user ID as a claim
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime()+jwtExpirationMs))
