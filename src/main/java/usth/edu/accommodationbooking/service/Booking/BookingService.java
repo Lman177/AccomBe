@@ -1,11 +1,13 @@
 package usth.edu.accommodationbooking.service.Booking;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import usth.edu.accommodationbooking.exception.InvalidBookingRequestException;
 import usth.edu.accommodationbooking.model.BookedRoom;
 import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.repository.BookingRepository;
+import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.service.Room.IRoomService;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 public class BookingService implements IBookingService {
     private final BookingRepository bookingRepository;
     private final IRoomService roomService;
+    private final RoomRepository roomRepository;
     @Override
     public List<BookedRoom> getAllBookings() {
 
@@ -67,7 +70,6 @@ public class BookingService implements IBookingService {
                                 || (bookingRequest.getCheckInDate().isAfter(existingBooking.getCheckInDate())
                                 && bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckOutDate()))
                                 || (bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckInDate())
-
                                 && bookingRequest.getCheckOutDate().equals(existingBooking.getCheckOutDate()))
                                 || (bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckInDate())
 
@@ -79,6 +81,18 @@ public class BookingService implements IBookingService {
                                 || (bookingRequest.getCheckInDate().equals(existingBooking.getCheckOutDate())
                                 && bookingRequest.getCheckOutDate().equals(bookingRequest.getCheckInDate()))
                 );
+    }
+    @Transactional
+    @Override
+    public void UpdateAvailableRoom() {
+        if(bookingRepository.findBookingOverTime() != null){
+            bookingRepository.findBookingOverTime().forEach(booking -> {
+                Room room = booking.getRoom();
+                room.setBooked(false);
+                roomRepository.save(room);
+            });
+        }
+
     }
 
 }
