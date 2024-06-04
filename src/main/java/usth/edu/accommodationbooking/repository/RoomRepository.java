@@ -25,4 +25,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 List<Room> findAvaRoomByDate_Type_Location(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String district);
 
     List<Room> findByOwnerId(Long userId);
+
+    @Query("select r from Room r where r.isBooked = false")
+    List<Room> findAvailableRoom();
 }

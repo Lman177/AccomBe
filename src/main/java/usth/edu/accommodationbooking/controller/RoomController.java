@@ -80,6 +80,22 @@ public class RoomController {
         }
         return ResponseEntity.ok(roomResponses);
     }
+    @GetMapping("/available")
+    public ResponseEntity<List<RoomResponse>> getAvailableRooms() throws SQLException {
+        List<Room> rooms = RoomService.getAvailableRooms();
+        List<RoomResponse> roomResponses = new ArrayList<>();
+        for (Room room : rooms) {
+            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+            if (photoBytes != null && photoBytes.length > 0) {
+                String base64Photo = Base64.encodeBase64String(photoBytes);
+                RoomResponse roomResponse = getRoomResponse(room);
+                roomResponse.setPhoto(base64Photo);
+                roomResponses.add(roomResponse);
+            }
+        }
+        return ResponseEntity.ok(roomResponses);
+    }
+
     @DeleteMapping("/delete/room/{roomId}")
     public ResponseEntity<Void> deleteRoom(@PathVariable("roomId") Long roomId){
         roomService.deleteRoom(roomId);
@@ -150,6 +166,9 @@ public class RoomController {
         }
         return ResponseEntity.ok(roomResponses);
     }
+
+
+
     private RoomResponse getRoomResponse(Room room) {
         List<BookedRoom> bookings = getAllBookingsByRoomId(room.getId());
         // Check if bookings is null and initialize to empty list if necessary

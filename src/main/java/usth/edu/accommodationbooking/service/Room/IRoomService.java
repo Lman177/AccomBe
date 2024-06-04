@@ -22,6 +22,8 @@ public interface IRoomService {
     List<Room> getAllRooms();
 
 
+    List<Room> getAvailableRooms();
+
     void deleteRoom(Long roomId);
 
 

@@ -65,6 +65,13 @@ public class RoomServiceImpl implements IRoomService {
         return roomRepository.findAll();
 
     }
+
+    @Override
+    public List<Room> getAvailableRooms() {
+        return roomRepository.findAvailableRoom();
+    }
+
+
     @Transactional
     @Override
     public void deleteRoom(Long roomId) {
