@@ -10,10 +10,10 @@ import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.service.Booking.BookingService;
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 @RequiredArgsConstructor
 public class AccommodationBookingApplication {
-    private final RoomRepository roomRepository;
+
     private final BookingService bookingService;
 
     public static void main(String[] args) {

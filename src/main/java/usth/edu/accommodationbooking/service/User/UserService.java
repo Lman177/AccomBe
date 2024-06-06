@@ -53,14 +53,12 @@ public class UserService implements IUserService {
             // Step 1: Clear user-role relationships
             theUser.getRoles().clear();
             userRepository.save(theUser);
-
             // Step 2: Handle user-room relationships
             List<Room> rooms = roomRepository.findByOwnerId(theUser.getId());
             for (Room room : rooms) {
                 // Alternatively, delete the rooms if that makes more sense for your application
                 roomRepository.delete(room);
             }
-
             // Step 3: Delete the user
             userRepository.delete(theUser);
         }

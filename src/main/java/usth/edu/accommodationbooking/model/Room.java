@@ -69,8 +69,7 @@ public class Room {
         booking.setRoom(this);
         isBooked = true;
         String bookingCode = RandomStringUtils.randomNumeric(10);
+        booking.setPrice(roomPrice*(booking.getCheckOutDate().getDayOfMonth()-booking.getCheckInDate().getDayOfMonth()));
         booking.setBookingConfirmationCode(bookingCode);
     }
-
-
 }

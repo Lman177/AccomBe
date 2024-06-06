@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Data
 public class AccomUserDetails implements UserDetails {
+    private String firstName;
     private Long id;
     private String email;
     private String password;
@@ -27,6 +28,7 @@ public class AccomUserDetails implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getName()))
                 .collect(Collectors.toList());
         return new AccomUserDetails(
+                user.getFirstName(),
                 user.getId(),
                 user.getEmail(),
                 user.getPassword(),

@@ -34,6 +34,7 @@ public class JwtUtils {
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
 //                .setId(userPrincipal.getId().toString())\
+                .claim("name", userPrincipal.getFirstName())
                 .claim("userId", userPrincipal.getId()) // Add user ID as a claim
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
