@@ -14,7 +14,9 @@ import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.repository.RoleRepository;
 import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
+import usth.edu.accommodationbooking.request.UserDto;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +34,11 @@ public class UserService implements IUserService {
         if (userRepository.existsByEmail(user.getEmail())){
             throw new UserAlreadyExistsException(user.getEmail() + " already exists");
         }
+        if(userRepository.existsByPhoneNumber(user.getPhoneNumber())){
+            throw new UserAlreadyExistsException(user.getPhoneNumber() + " already exists");
+        }
+        user.setPhoneNumber(user.getPhoneNumber());
+        user.setCreatedAt(LocalDate.now());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setPassword(user.getPassword());
         System.out.println(user.getPassword());
@@ -69,6 +76,20 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    @Override
+    public UserDto getOwnerOfRoomByRoomId(Long roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new UsernameNotFoundException("Room not found with id: " + roomId));
+        User owner = userRepository.findById(room.getOwner().getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + room.getOwner().getId()));
+        UserDto ownerDto = new UserDto();
+        ownerDto.setId(owner.getId());
+        ownerDto.setFirstName(owner.getFirstName());
+        ownerDto.setPhoneNumber(owner.getPhoneNumber());
+        ownerDto.setCreatedAt(owner.getCreatedAt());
+        ownerDto.setEmail(owner.getEmail());
+        return ownerDto;
+    }
 
 
 }

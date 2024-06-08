@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ManyToAny;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -29,14 +30,17 @@ public class User  {
     @Column(name = "first-name")
     private String firstName;
 
-    @Column(name = "last-name")
-    private String lastName;
+    @Column(name = "phone-number")
+    private String phoneNumber;
 
     @Column(name = "user-email")
     private String email;
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "created_at")
+    private LocalDate createdAt;
 
 
     @ManyToMany(fetch = FetchType.EAGER,

@@ -31,14 +31,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     @PostMapping("/register-user")
-    public ResponseEntity<?> registerUser(@RequestBody User user){
+    public ResponseEntity<String> registerUser(@RequestBody User user){
         try{
             userService.registerUser(user);
             return ResponseEntity.ok("Registration successful!");
 
         }catch (UserAlreadyExistsException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");        }
     }
 
     @PostMapping("/login")
