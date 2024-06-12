@@ -21,6 +21,7 @@ public class RoomResponse {
     private String roomLocation;
     private String roomAddress;
     private Long ownerId;
+    private Integer roomCapacity;
     private List<BookingResponse>bookings;
 
     public RoomResponse(Long id,
@@ -37,6 +38,7 @@ public class RoomResponse {
                         String description, Location roomLocation,
                         String roomAddress,byte[] photoBytes,
                         Long ownerId,
+                        Integer roomCapacity,
                         List<BookingResponse> bookings) {
         this.id = id;
         this.roomTypeName = roomTypeName;
@@ -48,10 +50,11 @@ public class RoomResponse {
         this.photo = photoBytes != null ? Base64.encodeBase64String(photoBytes) : null;
         this.ownerId = ownerId;
         this.bookings = bookings;
+        this.roomCapacity = roomCapacity;
     }
 
 
-    public RoomResponse(Long id, RoomType roomTypeName, Integer roomPrice, String description, String district,Long ownerId, String roomAddress) {
+    public RoomResponse(Long id, RoomType roomTypeName, Integer roomPrice, String description, String district,Long ownerId, String roomAddress, Integer roomCapacity) {
         this.id = id;
         this.roomTypeName = roomTypeName;
         this.roomPrice = roomPrice;
@@ -59,5 +62,6 @@ public class RoomResponse {
         this.roomLocation = district;
         this.ownerId = ownerId;
         this.roomAddress = roomAddress;
+        this.roomCapacity = roomCapacity;
     }
 }

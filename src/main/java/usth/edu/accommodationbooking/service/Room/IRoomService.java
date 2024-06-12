@@ -16,7 +16,9 @@ public interface IRoomService {
 
 //    List<String> getAllRoomTypes();
 
-    Room addNewRoom(Long userId, MultipartFile file, String roomTypeName, Integer roomPrice, String description, String roomLocation, String roomAddress) throws SQLException, IOException;
+    Room addNewRoom(Long userId, MultipartFile file, String roomTypeName,
+                    Integer roomPrice, String description, String roomLocation,
+                    String roomAddress, Integer roomCapacity) throws SQLException, IOException;
 //    Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException;
 
     List<Room> getAllRooms();
@@ -27,7 +29,7 @@ public interface IRoomService {
     void deleteRoom(Long roomId);
 
 
-    Room updateRoom(Long roomId, String roomTypeName, Integer roomPrice, String description, String roomLocation, String roomAddress,byte[] photoBytes ) throws SQLException, IOException;
+    Room updateRoom(Long roomId, String roomTypeName, Integer roomPrice, String description, String roomLocation, String roomAddress,byte[] photoBytes, Integer roomCapacity ) throws SQLException, IOException;
 
     Optional<Room> getRoomById(Long roomId);
 

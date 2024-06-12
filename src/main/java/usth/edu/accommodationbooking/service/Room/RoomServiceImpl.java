@@ -34,7 +34,7 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
 //    public Room addNewRoom(Long userId, MultipartFile file, String roomType, Integer roomPrice, String description) throws SQLException, IOException {
-    public Room addNewRoom(Long userId, MultipartFile file, String roomTypeName, Integer roomPrice, String description, String roomLocation, String roomAddress) throws SQLException, IOException {
+    public Room addNewRoom(Long userId, MultipartFile file, String roomTypeName, Integer roomPrice, String description, String roomLocation, String roomAddress, Integer roomCapacity) throws SQLException, IOException {
         User owner = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
         Room room = new Room();
         RoomType roomType = roomTypeRepository.findByName(roomTypeName);
@@ -46,6 +46,7 @@ public class RoomServiceImpl implements IRoomService {
         if(roomLocate == null){
             throw new ResourceNotFoundException("Room Location not found");
         }
+        room.setRoomCapacity(roomCapacity);
         room.setRoomAddress(roomAddress);
         room.setRoomTypeName(roomType);
         room.setRoomPrice(roomPrice);
@@ -92,7 +93,7 @@ public class RoomServiceImpl implements IRoomService {
 
 
     @Override
-    public Room updateRoom(Long roomId, String roomTypeName, Integer roomPrice,String description, String roomLocation, String roomAddress, byte[] photoBytes ) {
+    public Room updateRoom(Long roomId, String roomTypeName, Integer roomPrice,String description, String roomLocation, String roomAddress, byte[] photoBytes, Integer roomCapacity) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new ResourceNotFoundException("Sorry, Room not found"));
         RoomType roomType = roomTypeRepository.findByName(roomTypeName);
@@ -101,12 +102,14 @@ public class RoomServiceImpl implements IRoomService {
         if(roomLocation != null ) room.setRoomLocation(roomLocate);
         if(description != null) room.setDescription(description);
         if(roomAddress != null) room.setRoomAddress(roomAddress);
+        if(roomCapacity != null) room.setRoomCapacity(roomCapacity);
         if (roomPrice != null) room.setRoomPrice(roomPrice);
             try{
                     room.setPhoto(new SerialBlob(photoBytes));
             } catch (SQLException e) {
                 throw new InternalSeverException("Error updating Room");
             }
+
         return roomRepository.save(room);
     }
 

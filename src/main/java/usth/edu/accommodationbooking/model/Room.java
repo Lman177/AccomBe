@@ -39,6 +39,8 @@ public class Room {
     @JsonIgnore
     private Blob photo;
 
+    private Integer roomCapacity;
+
     @Column(name = "room_description")
     private String description;
     @JsonIgnore

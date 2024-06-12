@@ -47,12 +47,13 @@ public class RoomController {
             @RequestParam("roomLocation") String roomLocation,
             @RequestParam("photo") MultipartFile photo,
             @RequestParam("description") String description,
-            @RequestParam("roomPrice") Integer roomPrice) throws SQLException, IOException {
+            @RequestParam("roomPrice") Integer roomPrice,
+            @RequestParam("roomCapacity") Integer roomCapacity) throws SQLException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AccomUserDetails userDetails = (AccomUserDetails) authentication.getPrincipal();
         Long userId = userDetails.getUserId(); // Cast to your User class and get the ID
 //        Room savedRoom = RoomService.addNewRoom(userId ,photo, roomType, roomPrice, description);
-        Room savedRoom = RoomService.addNewRoom(userId, photo, roomTypeName, roomPrice, description, roomLocation, roomAddress);
+        Room savedRoom = RoomService.addNewRoom(userId, photo, roomTypeName, roomPrice, description, roomLocation, roomAddress, roomCapacity);
         RoomResponse response = new RoomResponse(
                 savedRoom.getId(),
                 savedRoom.getRoomTypeName(),
@@ -60,7 +61,8 @@ public class RoomController {
                 savedRoom.getDescription(),
                 savedRoom.getRoomLocation().getLocationName(),
                 userId,
-                savedRoom.getRoomAddress()
+                savedRoom.getRoomAddress(),
+                savedRoom.getRoomCapacity()
                 );
         return ResponseEntity.ok(response);
     }
@@ -107,13 +109,14 @@ public class RoomController {
                                                    @RequestParam(required = false) Integer roomPrice,
                                                    @RequestParam(required = false) MultipartFile photo,
                                                    @RequestParam(required = false) String description,
-                                                    @RequestParam(required = false) String roomLocation,
-                                                    @RequestParam(required = false) String roomAddress
+                                                   @RequestParam(required = false) String roomLocation,
+                                                   @RequestParam(required = false) String roomAddress,
+                                                   @RequestParam(required = false) Integer roomCapacity
                                                    ) throws SQLException, IOException {
         byte[] photoBytes = photo != null && !photo.isEmpty() ?
                 photo.getBytes() : roomService.getRoomPhotoByRoomId(roomId);
         Blob photoBlob = photoBytes != null && photoBytes.length >0 ? new SerialBlob(photoBytes): null;
-        Room theRoom = roomService.updateRoom(roomId, roomTypeName, roomPrice, description, roomLocation, roomAddress, photoBytes);
+        Room theRoom = roomService.updateRoom(roomId, roomTypeName, roomPrice, description, roomLocation, roomAddress, photoBytes, roomCapacity);
         theRoom.setPhoto(photoBlob);
         RoomResponse roomResponse = getRoomResponse(theRoom);
         return ResponseEntity.ok(roomResponse);
@@ -198,7 +201,7 @@ public class RoomController {
         }
         return new RoomResponse(room.getId(),
                 room.getRoomTypeName(), room.getRoomPrice(),
-                room.isBooked(),room.getDescription(), room.getRoomLocation(), room.getRoomAddress(), photoBytes, room.getOwner().getId(), bookingInfo);
+                room.isBooked(),room.getDescription(), room.getRoomLocation(), room.getRoomAddress(), photoBytes, room.getOwner().getId(), room.getRoomCapacity(), bookingInfo);
     }
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);

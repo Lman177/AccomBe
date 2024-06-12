@@ -10,6 +10,7 @@ import usth.edu.accommodationbooking.repository.BookingRepository;
 import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.service.Room.IRoomService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -29,20 +30,32 @@ public class BookingService implements IBookingService {
 
     @Override
     public String saveBooking(Long roomId, BookedRoom bookingRequest) {
-        if(bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())){
+        // Validate dates first
+        if (bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())) {
             throw new InvalidBookingRequestException("Check-in date must come before check-out date");
         }
-        Room room = roomService.getRoomById(roomId).get();
-        List<BookedRoom> existingBookings = room.getBookings();
-        boolean roomIsAvailable = roomIsAvailable(bookingRequest, existingBookings);
-        if(roomIsAvailable){
-            room.addBooking(bookingRequest);
-            bookingRepository.save(bookingRequest);
-        }else{
-            throw new InvalidBookingRequestException("Sorry, This room is not available for selected dates");
+
+        // Retrieve the room information
+        Room room = roomService.getRoomById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Room with id " + roomId + " not found"));
+
+        // Check if room is available
+        if (!roomIsAvailable(bookingRequest, room.getBookings())) {
+            throw new InvalidBookingRequestException("Sorry, this room is not available for selected dates");
         }
+
+        // Check room capacity
+        if (room.getRoomCapacity() < bookingRequest.getTotalNumOfGuests()) {
+            throw new InvalidBookingRequestException("This room capacity is not enough for the number of guests you have entered");
+        }
+
+        // Add booking to room and save
+        room.addBooking(bookingRequest);
+        bookingRepository.save(bookingRequest);
+
         return bookingRequest.getBookingConfirmationCode();
     }
+
 
 
 
@@ -63,25 +76,16 @@ public class BookingService implements IBookingService {
 
 
     private boolean roomIsAvailable(BookedRoom bookingRequest, List<BookedRoom> existingBookings) {
-        return existingBookings.stream()
-                .noneMatch(existingBooking ->
-                        bookingRequest.getCheckInDate().equals(existingBooking.getCheckInDate())
-                                || bookingRequest.getCheckOutDate().isBefore(existingBooking.getCheckOutDate())
-                                || (bookingRequest.getCheckInDate().isAfter(existingBooking.getCheckInDate())
-                                && bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckOutDate()))
-                                || (bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckInDate())
-                                && bookingRequest.getCheckOutDate().equals(existingBooking.getCheckOutDate()))
-                                || (bookingRequest.getCheckInDate().isBefore(existingBooking.getCheckInDate())
+        LocalDate checkIn = bookingRequest.getCheckInDate();
+        LocalDate checkOut = bookingRequest.getCheckOutDate();
 
-                                && bookingRequest.getCheckOutDate().isAfter(existingBooking.getCheckOutDate()))
-
-                                || (bookingRequest.getCheckInDate().equals(existingBooking.getCheckOutDate())
-                                && bookingRequest.getCheckOutDate().equals(existingBooking.getCheckInDate()))
-
-                                || (bookingRequest.getCheckInDate().equals(existingBooking.getCheckOutDate())
-                                && bookingRequest.getCheckOutDate().equals(bookingRequest.getCheckInDate()))
-                );
+        return existingBookings.stream().noneMatch(existingBooking -> {
+            LocalDate existingCheckIn = existingBooking.getCheckInDate();
+            LocalDate existingCheckOut = existingBooking.getCheckOutDate();
+            return checkIn.isBefore(existingCheckOut) && checkOut.isAfter(existingCheckIn);
+        });
     }
+
     @Transactional
     @Override
     public void UpdateAvailableRoom() {
