@@ -1,6 +1,9 @@
 package usth.edu.accommodationbooking.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +15,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "bookingId")
 public class BookedRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

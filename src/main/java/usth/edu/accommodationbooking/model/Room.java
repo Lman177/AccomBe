@@ -1,9 +1,6 @@
 package usth.edu.accommodationbooking.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,11 +15,11 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     @Column(name = "room_address")
@@ -47,6 +44,7 @@ public class Room {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "room")
     private List<BookedRoom> bookings;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
     private User owner;

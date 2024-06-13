@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.model.Room;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -35,6 +36,8 @@ public interface IRoomService {
 
 
     List<Room> getAllAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation);
+
+    List<Room> filterRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation, BigDecimal minPrice, BigDecimal maxPrice);
 
     List<Room> getRoomsByUserId(Long userId);
 }

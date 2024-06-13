@@ -18,6 +18,7 @@ import usth.edu.accommodationbooking.repository.UserRepository;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -124,6 +125,10 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
+    public List<Room> filterRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation, BigDecimal minPrice, BigDecimal maxPrice){
+        return roomRepository.findAvaRoomByDate_Type_Location_Price(checkInDate, checkOutDate, roomType, roomLocation, minPrice, maxPrice);
+    }
+    @Override
     public List<Room> getRoomsByUserId(Long userId) {
         return roomRepository.findByOwnerId(userId);
     }
@@ -141,6 +146,7 @@ public class RoomServiceImpl implements IRoomService {
         }
         return null;
     }
+
 
 
 

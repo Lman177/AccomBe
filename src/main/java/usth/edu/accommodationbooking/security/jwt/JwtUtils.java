@@ -42,6 +42,17 @@ public class JwtUtils {
                 .signWith(key(), SignatureAlgorithm.HS256).compact();
     }
 
+    public Long getUserIdFromToken(String token) {
+        // Parse the token
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key()) // Provide the key used while signing the token
+                .build()
+                .parseClaimsJws(token) // Parse the token
+                .getBody(); // Get the body which contains the claims
+
+        // Retrieve the userId from claims, ensure it's the same key as in the token generation
+        return Long.parseLong(claims.get("userId").toString()); // Extract the userId claim and convert to Long
+    }
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
@@ -51,6 +62,7 @@ public class JwtUtils {
                 .build()
                 .parseClaimsJws(token).getBody().getSubject();
     }
+
     public boolean validateToken(String token){
         try{
             Jwts.parserBuilder().setSigningKey(key()).build().parse(token);

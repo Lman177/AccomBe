@@ -17,5 +17,7 @@ public interface BookingRepository extends JpaRepository<BookedRoom, Long> {
     @Query("SELECT b FROM BookedRoom b WHERE b.checkOutDate < current_date ")
     List<BookedRoom> findBookingOverTime();
 
+    @Query("select  b from BookedRoom  b left join Room r on b.room.id = r.id where r.owner.id = :id")
+    List<BookedRoom> findBookingOfOwner(Long id);
 
 }

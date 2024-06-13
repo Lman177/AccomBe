@@ -1,5 +1,6 @@
 package usth.edu.accommodationbooking.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -85,6 +86,12 @@ public class BookingController {
                 booking.getGuestEmail(), booking.getNumberOfAdults(),
                 booking.getNumberOfChildren(), booking.getTotalNumOfGuests(),
                 booking.getBookingConfirmationCode(), room);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<List<BookingResponse>> findBookingOfOwner(HttpServletRequest request){
+        List<BookingResponse> bookings = bookingService.findBookingOfOwner(request);
+        return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
 
 

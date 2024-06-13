@@ -28,7 +28,10 @@ public class Role {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER
+            , cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE, CascadeType.DETACH})    
+
     private Collection<User> users = new HashSet<>();
 
     public Role(String name) {

@@ -25,6 +25,7 @@ import usth.edu.accommodationbooking.service.Room.RoomServiceImpl;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -135,8 +136,10 @@ public class RoomController {
             @RequestParam LocalDate checkInDate,
             @RequestParam LocalDate checkOutDate,
             @RequestParam(required = false) String roomType,
-            @RequestParam(required = false) String roomLocation ) throws SQLException {
-            List<Room> availableRooms = roomService.getAllAvailableRooms(checkInDate, checkOutDate, roomType, roomLocation);
+            @RequestParam(required = false) String roomLocation,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice) throws SQLException {
+            List<Room> availableRooms = roomService.filterRooms(checkInDate, checkOutDate, roomType, roomLocation, minPrice, maxPrice);
         if (roomType != null && roomType.trim().isEmpty()) {
             roomType = null;
         }
