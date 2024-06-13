@@ -73,8 +73,22 @@ public class BookingService implements IBookingService {
     }
 
     @Override
-    public List<BookedRoom> getBookingsByUserEmail(String email) {
-        return bookingRepository.findByGuestEmail(email);
+    public List<BookingResponse> getBookingsByUserEmail(String email) {
+        List<BookedRoom> bookedRooms = bookingRepository.findByGuestEmail(email);
+        return bookedRooms.stream().map(bookedRoom -> new BookingResponse(
+                bookedRoom.getBookingId(),
+                bookedRoom.getCheckInDate(),
+                bookedRoom.getCheckOutDate(),
+                bookedRoom.getGuestFullName(),
+                bookedRoom.getGuestEmail(),
+                bookedRoom.getGuestPhone(),
+                bookedRoom.getNumberOfAdults(),
+                bookedRoom.getNumberOfChildren(),
+                bookedRoom.getTotalNumOfGuests(),
+                bookedRoom.getBookingConfirmationCode(),
+                bookedRoom.getRoom().getOwner().getId(),
+                bookedRoom.getRoom()
+        )).collect(Collectors.toList());
     }
 
 

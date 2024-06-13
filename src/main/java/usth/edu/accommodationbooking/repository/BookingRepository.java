@@ -12,6 +12,8 @@ public interface BookingRepository extends JpaRepository<BookedRoom, Long> {
 
     BookedRoom findByBookingConfirmationCode(String confirmationCode);
 
+
+    @Query("SELECT b FROM BookedRoom b WHERE b.guestEmail = :email")
     List<BookedRoom> findByGuestEmail(String email);
 
     @Query("SELECT b FROM BookedRoom b WHERE b.checkOutDate < current_date ")

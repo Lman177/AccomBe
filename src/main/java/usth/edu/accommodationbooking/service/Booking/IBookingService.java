@@ -16,7 +16,7 @@ public interface IBookingService {
     BookedRoom findByBookingConfirmationCode(String confirmationCode);
 
 
-    List<BookedRoom> getBookingsByUserEmail(String email);
+    List<BookingResponse> getBookingsByUserEmail(String email);
 
    void UpdateAvailableRoom();
 

@@ -38,8 +38,10 @@ public class Room {
 
     private Integer roomCapacity;
 
-    @Column(name = "room_description")
+
+    @Column(name = "room_description" ,length = 2550)
     private String description;
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "room")
     private List<BookedRoom> bookings;
