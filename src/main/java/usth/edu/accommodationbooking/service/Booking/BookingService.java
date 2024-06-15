@@ -8,9 +8,11 @@ import usth.edu.accommodationbooking.exception.InvalidBookingRequestException;
 import usth.edu.accommodationbooking.model.BookedRoom;
 import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.repository.BookingRepository;
+import usth.edu.accommodationbooking.repository.ProfitRepository;
 import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
 import usth.edu.accommodationbooking.response.BookingResponse;
+import usth.edu.accommodationbooking.response.ProfitResponse;
 import usth.edu.accommodationbooking.security.jwt.JwtUtils;
 import usth.edu.accommodationbooking.service.Room.IRoomService;
 
@@ -26,6 +28,7 @@ public class BookingService implements IBookingService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
     private final JwtUtils jwtUtils;
+    private final ProfitRepository profitRepository;
     @Override
     public List<BookedRoom> getAllBookings() {
         return bookingRepository.findAll();
@@ -133,6 +136,11 @@ public class BookingService implements IBookingService {
                 bookedRoom.getRoom().getOwner().getId(),
                 bookedRoom.getRoom()
         )).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProfitResponse> getProfit(){
+        return profitRepository.getProfit();
     }
 
 
