@@ -25,13 +25,8 @@ public class BookingController {
     private final IRoomService roomService;
     @GetMapping("all-bookings")
     public ResponseEntity<List<BookingResponse>> getAllBookings(){
-        List<BookedRoom> bookings = bookingService.getAllBookings();
-        List<BookingResponse> bookingResponses = new ArrayList<>();
-        for(BookedRoom booking : bookings){
-            BookingResponse bookingResponse = getBookingResponse(booking);
-            bookingResponses.add(bookingResponse);
-        }
-        return ResponseEntity.ok(bookingResponses);
+        List<BookingResponse> bookingResponses = bookingService.getAllBookings();
+        return new ResponseEntity<>(bookingResponses, HttpStatus.OK);
     }
 
 

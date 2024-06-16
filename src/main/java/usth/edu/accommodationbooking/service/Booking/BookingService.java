@@ -30,8 +30,23 @@ public class BookingService implements IBookingService {
     private final JwtUtils jwtUtils;
     private final ProfitRepository profitRepository;
     @Override
-    public List<BookedRoom> getAllBookings() {
-        return bookingRepository.findAll();
+    public List<BookingResponse> getAllBookings() {
+        List<BookedRoom> bookedRooms = bookingRepository.findAll();
+        return bookedRooms.stream().map(bookedRoom -> new BookingResponse(
+                bookedRoom.getBookingId(),
+                bookedRoom.getCheckInDate(),
+                bookedRoom.getCheckOutDate(),
+                bookedRoom.getGuestFullName(),
+                bookedRoom.getGuestEmail(),
+                bookedRoom.getGuestPhone(),
+                bookedRoom.getNumberOfAdults(),
+                bookedRoom.getNumberOfChildren(),
+                bookedRoom.getTotalNumOfGuests(),
+                bookedRoom.getBookingConfirmationCode(),
+                bookedRoom.getRoom().getOwner().getId(),
+                bookedRoom.getRoom()
+        )).collect(Collectors.toList());
+
     }
     public List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingRepository.findByRoomId(roomId);
