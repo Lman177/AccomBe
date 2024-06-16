@@ -40,4 +40,6 @@ public interface IRoomService {
     List<Room> filterRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation, BigDecimal minPrice, BigDecimal maxPrice);
 
     List<Room> getRoomsByUserId(Long userId);
+
+    Integer countAllRoom();
 }

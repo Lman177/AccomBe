@@ -7,15 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.request.UserDto;
 import usth.edu.accommodationbooking.service.Room.RoomServiceImpl;
 import usth.edu.accommodationbooking.service.User.IUserService;
-import usth.edu.accommodationbooking.service.User.UserService;
 
 import java.util.List;
 
@@ -71,5 +68,10 @@ public class UserController {
     @GetMapping("/owner/{roomId}")
     public UserDto getRoomOwner(@PathVariable("roomId") Long roomId){
         return userService.getOwnerOfRoomByRoomId(roomId);
+    }
+
+    @GetMapping("/total")
+    public Integer countAllUser(){
+        return userService.countAllUser();
     }
 }

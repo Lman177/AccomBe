@@ -147,6 +147,10 @@ public class RoomServiceImpl implements IRoomService {
         return null;
     }
 
+    @Override
+    public Integer countAllRoom(){
+        return roomRepository.countTotalRooms();
+    }
 
 
 

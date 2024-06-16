@@ -178,6 +178,10 @@ public class RoomController {
         return ResponseEntity.ok(roomResponses);
     }
 
+    @GetMapping("/total")
+    public Integer CountAllRooms(){
+        return roomService.countAllRoom();
+    }
 
 
     private RoomResponse getRoomResponse(Room room) {
@@ -209,4 +213,6 @@ public class RoomController {
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);
     }
+
+
 }

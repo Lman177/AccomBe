@@ -14,5 +14,5 @@ public interface IUserService{
     UserDto getOwnerOfRoomByRoomId(Long id);
 
 
-
+    Integer countAllUser();
 }

@@ -91,5 +91,9 @@ public class UserService implements IUserService {
         return ownerDto;
     }
 
+    @Override
+    public Integer countAllUser(){
+        return userRepository.countAllUser();
+    }
 
 }

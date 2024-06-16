@@ -1,6 +1,7 @@
 package usth.edu.accommodationbooking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import usth.edu.accommodationbooking.model.User;
 
 import java.util.Optional;
@@ -13,5 +14,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteByEmail(String email);
 
     Optional<User> findByEmail(String email);
+
+    @Query("select count(id) from User ")
+    Integer countAllUser();
 
 }
