@@ -3,6 +3,10 @@ package usth.edu.accommodationbooking.service.Room;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.exception.InternalSeverException;
@@ -17,6 +21,8 @@ import usth.edu.accommodationbooking.repository.RoomTypeRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
 
 import javax.sql.rowset.serial.SerialBlob;
+
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Blob;
@@ -66,6 +72,11 @@ public class RoomServiceImpl implements IRoomService {
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
 
+    }
+
+    @Override
+    public Page getAllRooms(Pageable pageable) throws SQLException {
+        return (Page) roomRepository.findAll(pageable);
     }
 
     @Override

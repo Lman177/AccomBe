@@ -2,6 +2,10 @@ package usth.edu.accommodationbooking.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -68,11 +72,32 @@ public class RoomController {
         return ResponseEntity.ok(response);
     }
 //
+//    @GetMapping("/all-rooms")
+//    public ResponseEntity<List<RoomResponse>> getAllRoom() throws SQLException {
+//        List<Room> rooms = roomService.getAllRooms();
+//        List<RoomResponse> roomResponses = new ArrayList<>();
+//        for (Room room : rooms) {
+//            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+//            if (photoBytes != null && photoBytes.length > 0) {
+//                String base64Photo = Base64.encodeBase64String(photoBytes);
+//                RoomResponse roomResponse = getRoomResponse(room);
+//                roomResponse.setPhoto(base64Photo);
+//                roomResponses.add(roomResponse);
+//            }
+//        }
+//        return ResponseEntity.ok(roomResponses);
+//    }
+
     @GetMapping("/all-rooms")
-    public ResponseEntity<List<RoomResponse>> getAllRooms() throws SQLException {
-        List<Room> rooms = roomService.getAllRooms();
+    public ResponseEntity<Page<RoomResponse>> getAllRooms(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "4") int size) throws SQLException {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Room> roomPage = roomService.getAllRooms(pageable);
         List<RoomResponse> roomResponses = new ArrayList<>();
-        for (Room room : rooms) {
+
+        for (Room room : roomPage.getContent()) {
             byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
             if (photoBytes != null && photoBytes.length > 0) {
                 String base64Photo = Base64.encodeBase64String(photoBytes);
@@ -81,7 +106,9 @@ public class RoomController {
                 roomResponses.add(roomResponse);
             }
         }
-        return ResponseEntity.ok(roomResponses);
+
+        Page<RoomResponse> responsePage = new PageImpl<>(roomResponses, pageable, roomPage.getTotalElements());
+        return ResponseEntity.ok(responsePage);
     }
     @GetMapping("/available")
     public ResponseEntity<List<RoomResponse>> getAvailableRooms() throws SQLException {
@@ -208,7 +235,7 @@ public class RoomController {
         }
         return new RoomResponse(room.getId(),
                 room.getRoomTypeName(), room.getRoomPrice(),
-                room.isBooked(),room.getDescription(), room.getRoomLocation(), room.getRoomAddress(), photoBytes, room.getOwner().getId(), room.getRoomCapacity(), bookingInfo);
+                room.isBooked(),room.getDescription(), room.getRoomLocation(), room.getRoomAddress(), photoBytes, room.getOwner().getId(), room.getRoomCapacity());
     }
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);

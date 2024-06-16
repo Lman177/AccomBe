@@ -22,7 +22,7 @@ public class RoomResponse {
     private String roomAddress;
     private Long ownerId;
     private Integer roomCapacity;
-    private List<BookingResponse>bookings;
+
 
     public RoomResponse(Long id,
                         RoomType roomTypeName,
@@ -38,8 +38,8 @@ public class RoomResponse {
                         String description, Location roomLocation,
                         String roomAddress,byte[] photoBytes,
                         Long ownerId,
-                        Integer roomCapacity,
-                        List<BookingResponse> bookings) {
+                        Integer roomCapacity
+                        ) {
         this.id = id;
         this.roomTypeName = roomTypeName;
         this.roomPrice = roomPrice;
@@ -49,7 +49,7 @@ public class RoomResponse {
         this.roomAddress = roomAddress;
         this.photo = photoBytes != null ? Base64.encodeBase64String(photoBytes) : null;
         this.ownerId = ownerId;
-        this.bookings = bookings;
+
         this.roomCapacity = roomCapacity;
     }
 

@@ -1,7 +1,11 @@
 package usth.edu.accommodationbooking.service.Room;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.model.Room;
+
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -24,6 +28,8 @@ public interface IRoomService {
 
     List<Room> getAllRooms();
 
+
+    Page getAllRooms(Pageable pageable) throws SQLException;
 
     List<Room> getAvailableRooms();
 

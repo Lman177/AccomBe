@@ -1,10 +1,12 @@
 package usth.edu.accommodationbooking.repository;
 
+import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import usth.edu.accommodationbooking.model.Room;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -78,5 +80,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     @Query("select count(id) from Room ")
     Integer countTotalRooms();
+
 
 }
