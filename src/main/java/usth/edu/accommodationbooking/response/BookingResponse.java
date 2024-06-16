@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
+
 @NoArgsConstructor
 public class BookingResponse {
     private Long id;
@@ -27,6 +27,23 @@ public class BookingResponse {
     private Long ownerId;
     private Room room;
 
+
+    public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate, String guestName,
+                           String guestEmail, String guestPhone, int numOfAdults, int numOfChildren,
+                           int totalNumOfGuests, String bookingConfirmationCode, Long ownerId, Room room) {
+        this.id = id;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.guestName = guestName;
+        this.guestEmail = guestEmail;
+        this.guestPhone = guestPhone;
+        this.numOfAdults = numOfAdults;
+        this.numOfChildren = numOfChildren;
+        this.totalNumOfGuests = totalNumOfGuests;
+        this.bookingConfirmationCode = bookingConfirmationCode;
+        this.ownerId = ownerId;
+        this.room = room;
+    }
 
     public BookingResponse(Long bookingId, LocalDate checkInDate,
                            LocalDate checkOutDate, String guestFullName,

@@ -8,7 +8,7 @@ import usth.edu.accommodationbooking.response.ProfitResponse;
 import java.util.List;
 
 public interface IBookingService {
-    List<BookedRoom> getAllBookings();
+    List<BookingResponse>  getAllBookings();
 
     String saveBooking(Long roomId, BookedRoom bookingRequest);
 
