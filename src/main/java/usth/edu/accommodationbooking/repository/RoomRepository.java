@@ -1,12 +1,13 @@
 package usth.edu.accommodationbooking.repository;
 
-import org.hibernate.query.Page;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import usth.edu.accommodationbooking.model.Room;
+import usth.edu.accommodationbooking.response.RoomResponse;
 
-import java.awt.print.Pageable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,16 +48,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 //            "(select br.room.id from BookedRoom br where br.checkInDate <= :checkOutDate and br.checkOutDate >= :checkInDate)")
 //    List<Room> findAvaRoomByDate_Type_Location(LocalDate checkInDate, LocalDate checkOutDate, @Param("roomType") String roomType, @Param("roomLocation") String roomLocation);
 
-    @Query("SELECT r FROM Room r " +
-            "WHERE " +
-            "(:#{#roomType} IS NULL OR :#{#roomType} = '' OR lower(r.roomTypeName.name) LIKE concat('%', lower(:#{#roomType}), '%')) AND " +
-            "(:#{#roomLocation} IS NULL OR :#{#roomLocation} = '' OR lower(r.roomLocation.locationName) LIKE concat('%', lower(:#{#roomLocation}), '%')) AND " +
-            "r.id NOT IN " +
-            "(SELECT br.room.id FROM BookedRoom br WHERE br.checkInDate <= :#{#checkOutDate} AND br.checkOutDate >= :#{#checkInDate})")
-    List<Room> findAvaRoomByDate_Type_Location(@Param("checkInDate") LocalDate checkInDate,
-                                               @Param("checkOutDate") LocalDate checkOutDate,
-                                               @Param("roomType") String roomType,
-                                               @Param("roomLocation") String roomLocation);
+
 
     @Query("SELECT r FROM Room r " +
             "WHERE " +
@@ -66,12 +58,12 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "(:#{#maxPrice} IS NULL OR r.roomPrice <= :#{#maxPrice}) AND " +
             "r.id NOT IN " +
             "(SELECT br.room.id FROM BookedRoom br WHERE br.checkInDate <= :#{#checkOutDate} AND br.checkOutDate >= :#{#checkInDate})")
-    List<Room> findAvaRoomByDate_Type_Location_Price(@Param("checkInDate") LocalDate checkInDate,
+    Page<Room> findAvaRoomByDate_Type_Location_Price(@Param("checkInDate") LocalDate checkInDate,
                                                      @Param("checkOutDate") LocalDate checkOutDate,
                                                      @Param("roomType") String roomType,
                                                      @Param("roomLocation") String roomLocation,
                                                      @Param("minPrice") BigDecimal minPrice,
-                                                     @Param("maxPrice") BigDecimal maxPrice);
+                                                     @Param("maxPrice") BigDecimal maxPrice, Pageable pageable);
 
     List<Room> findByOwnerId(Long userId);
 

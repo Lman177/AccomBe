@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import usth.edu.accommodationbooking.model.Room;
+import usth.edu.accommodationbooking.response.RoomResponse;
 
 
 import java.io.IOException;
@@ -41,9 +42,8 @@ public interface IRoomService {
     Optional<Room> getRoomById(Long roomId);
 
 
-    List<Room> getAllAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation);
 
-    List<Room> filterRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation, BigDecimal minPrice, BigDecimal maxPrice);
+    Page<Room> filterRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable);
 
     List<Room> getRoomsByUserId(Long userId);
 

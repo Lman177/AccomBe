@@ -19,6 +19,7 @@ import usth.edu.accommodationbooking.repository.LocationRepository;
 import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.repository.RoomTypeRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
+import usth.edu.accommodationbooking.response.RoomResponse;
 
 import javax.sql.rowset.serial.SerialBlob;
 
@@ -76,7 +77,7 @@ public class RoomServiceImpl implements IRoomService {
 
     @Override
     public Page getAllRooms(Pageable pageable) throws SQLException {
-        return (Page) roomRepository.findAll(pageable);
+        return roomRepository.findAll(pageable);
     }
 
     @Override
@@ -130,14 +131,11 @@ public class RoomServiceImpl implements IRoomService {
         return Optional.of(roomRepository.findById(roomId).get());
     }
 
-    @Override
-    public List<Room> getAllAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation) {
-        return roomRepository.findAvaRoomByDate_Type_Location(checkInDate, checkOutDate, roomType, roomLocation);
-    }
+
 
     @Override
-    public List<Room> filterRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation, BigDecimal minPrice, BigDecimal maxPrice){
-        return roomRepository.findAvaRoomByDate_Type_Location_Price(checkInDate, checkOutDate, roomType, roomLocation, minPrice, maxPrice);
+    public Page<Room> filterRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType, String roomLocation, BigDecimal minPrice, BigDecimal maxPrice, Pageable pageable){
+        return roomRepository.findAvaRoomByDate_Type_Location_Price(checkInDate, checkOutDate, roomType, roomLocation, minPrice, maxPrice, pageable);
     }
     @Override
     public List<Room> getRoomsByUserId(Long userId) {

@@ -159,19 +159,19 @@ public class RoomController {
     }
 
     @GetMapping("/available-rooms")
-    public ResponseEntity<List<RoomResponse>> getAllAvailableRooms(
+    public ResponseEntity<Page<RoomResponse>> getAllAvailableRooms(
             @RequestParam LocalDate checkInDate,
             @RequestParam LocalDate checkOutDate,
             @RequestParam(required = false) String roomType,
             @RequestParam(required = false) String roomLocation,
             @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice) throws SQLException {
-            List<Room> availableRooms = roomService.filterRooms(checkInDate, checkOutDate, roomType, roomLocation, minPrice, maxPrice);
-        if (roomType != null && roomType.trim().isEmpty()) {
-            roomType = null;
-        }
-        if (roomLocation != null && roomLocation.trim().isEmpty()) {
-            roomLocation = null;    }
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "4") int size) throws SQLException {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Room> availableRooms = roomService.filterRooms(checkInDate, checkOutDate, roomType, roomLocation, minPrice, maxPrice, pageable);
+
         List<RoomResponse> roomResponses = new ArrayList<>();
         for (Room room : availableRooms){
             byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
@@ -182,12 +182,14 @@ public class RoomController {
                 roomResponses.add(roomResponse);
             }
         }
-        if(roomResponses.isEmpty()){
+
+        Page<RoomResponse> roomResponsePage = new PageImpl<>(roomResponses, pageable, availableRooms.getTotalElements());
+
+        if(roomResponsePage.isEmpty()){
             return ResponseEntity.noContent().build();
         }else{
-            return ResponseEntity.ok(roomResponses);
+            return ResponseEntity.ok(roomResponsePage);
         }
-
     }
     @GetMapping("/{userId}")
     public ResponseEntity<List<RoomResponse>> getRoomsByUserId(@PathVariable Long userId) throws SQLException {
