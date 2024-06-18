@@ -34,6 +34,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,7 +92,7 @@ public class RoomController {
     @GetMapping("/all-rooms")
     public ResponseEntity<Page<RoomResponse>> getAllRooms(
             @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "4") int size) throws SQLException {
+            @RequestParam(value = "size", defaultValue = "10") int size) throws SQLException {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<Room> roomPage = roomService.getAllRooms(pageable);
@@ -167,15 +168,15 @@ public class RoomController {
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "4") int size) throws SQLException {
+            @RequestParam(defaultValue = "10") int size) throws SQLException {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<Room> availableRooms = roomService.filterRooms(checkInDate, checkOutDate, roomType, roomLocation, minPrice, maxPrice, pageable);
 
         List<RoomResponse> roomResponses = new ArrayList<>();
-        for (Room room : availableRooms){
+        for (Room room : availableRooms) {
             byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
-            if (photoBytes != null && photoBytes.length > 0){
+            if (photoBytes != null && photoBytes.length > 0) {
                 String base64Photo = Base64.encodeBase64String(photoBytes);
                 RoomResponse roomResponse = getRoomResponse(room);
                 roomResponse.setPhoto(base64Photo);
@@ -185,12 +186,14 @@ public class RoomController {
 
         Page<RoomResponse> roomResponsePage = new PageImpl<>(roomResponses, pageable, availableRooms.getTotalElements());
 
-        if(roomResponsePage.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }else{
+        // Change this to ensure an empty array is returned with a 200 OK status
+        if (roomResponsePage.isEmpty()) {
+            return ResponseEntity.ok(new PageImpl<>(Collections.emptyList(), pageable, availableRooms.getTotalElements()));
+        } else {
             return ResponseEntity.ok(roomResponsePage);
         }
     }
+
     @GetMapping("/{userId}")
     public ResponseEntity<List<RoomResponse>> getRoomsByUserId(@PathVariable Long userId) throws SQLException {
         List<Room> rooms = roomService.getRoomsByUserId(userId);
