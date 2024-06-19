@@ -26,10 +26,12 @@ public class RoomResponse {
 
     public RoomResponse(Long id,
                         RoomType roomTypeName,
+                        String roomLocation,
                         Integer roomPrice,
                         String description) {
         this.id = id;
         this.roomTypeName = roomTypeName;
+        this.roomLocation = roomLocation;
         this.roomPrice = roomPrice;
         this.description = description;
     }

@@ -100,8 +100,6 @@ public class BookingService implements IBookingService {
                 bookedRoom.getGuestFullName(),
                 bookedRoom.getGuestEmail(),
                 bookedRoom.getGuestPhone(),
-                bookedRoom.getNumberOfAdults(),
-                bookedRoom.getNumberOfChildren(),
                 bookedRoom.getTotalNumOfGuests(),
                 bookedRoom.getBookingConfirmationCode(),
                 bookedRoom.getRoom().getOwner().getId(),

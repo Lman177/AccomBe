@@ -69,6 +69,7 @@ public class BookingController {
         RoomResponse room = new RoomResponse(
                 theRoom.getId(),
                 theRoom.getRoomTypeName(),
+                theRoom.getRoomLocation().getLocationName(),
                 theRoom.getRoomPrice(),
                 theRoom.getDescription());
         return new BookingResponse(
@@ -76,7 +77,7 @@ public class BookingController {
                 booking.getCheckOutDate(),booking.getGuestFullName(),
                 booking.getGuestEmail(), booking.getNumberOfAdults(),
                 booking.getNumberOfChildren(), booking.getTotalNumOfGuests(),
-                booking.getBookingConfirmationCode(), room);
+                booking.getBookingConfirmationCode(), booking.getRoom(), room);
     }
 
     @GetMapping("/get")
