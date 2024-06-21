@@ -1,13 +1,17 @@
 package usth.edu.accommodationbooking.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +22,7 @@ public class Review {
     private Room room;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "guest_id", nullable = false)
     private User user;
 
     @Column(nullable = false, precision = 3, scale = 2)
@@ -32,8 +36,6 @@ public class Review {
 
     @Column(nullable = false)
     private LocalDate createdDate;
-
-
 
 
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
 import usth.edu.accommodationbooking.model.Location;
+import usth.edu.accommodationbooking.model.Review;
 import usth.edu.accommodationbooking.model.RoomType;
 
 import java.math.BigDecimal;
@@ -22,6 +23,7 @@ public class RoomResponse {
     private String roomAddress;
     private Long ownerId;
     private Integer roomCapacity;
+    private BigDecimal rating;
 
 
     public RoomResponse(Long id,
@@ -40,7 +42,8 @@ public class RoomResponse {
                         String description, Location roomLocation,
                         String roomAddress,byte[] photoBytes,
                         Long ownerId,
-                        Integer roomCapacity
+                        Integer roomCapacity,
+                        BigDecimal rating
                         ) {
         this.id = id;
         this.roomTypeName = roomTypeName;
@@ -51,8 +54,8 @@ public class RoomResponse {
         this.roomAddress = roomAddress;
         this.photo = photoBytes != null ? Base64.encodeBase64String(photoBytes) : null;
         this.ownerId = ownerId;
-
         this.roomCapacity = roomCapacity;
+        this.rating = rating;
     }
 
 

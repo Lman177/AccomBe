@@ -60,8 +60,7 @@ public class Room {
     private Location roomLocation;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "room")
-    @JoinColumn(name = "review_id")
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     public Room() {
         this.bookings = new ArrayList<>();
