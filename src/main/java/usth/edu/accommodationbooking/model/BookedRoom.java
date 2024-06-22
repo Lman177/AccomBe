@@ -56,6 +56,8 @@ public class BookedRoom {
     @JoinColumn(name = "room_id")
     private Room room;
 
+    private boolean isReview = false;
+
     public void calculateTotalNumOfGuests() {
         this.totalNumOfGuests = this.NumberOfAdults + this.NumberOfChildren;
     }

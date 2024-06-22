@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import usth.edu.accommodationbooking.model.BookedRoom;
 import usth.edu.accommodationbooking.model.Review;
 import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.model.User;
+import usth.edu.accommodationbooking.repository.BookingRepository;
 import usth.edu.accommodationbooking.repository.ReviewRepository;
 import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
@@ -24,7 +26,7 @@ public class ReviewServiceImp implements ReviewService{
     public final ReviewRepository reviewRepository;
     public final RoomRepository roomRepository;
     public final UserRepository userRepository;
-
+    public  final BookingRepository bookingRepository;
 
 
     @Override
@@ -33,6 +35,7 @@ public class ReviewServiceImp implements ReviewService{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("Room not found"));
+        BookedRoom bookedRoom = bookingRepository.findByRoomId(roomId).stream().findFirst().orElseThrow(() -> new RuntimeException("Room not found"));
         Review review = new Review();
         review.setRoom(room);
         review.setComment(comment);
@@ -40,6 +43,7 @@ public class ReviewServiceImp implements ReviewService{
         review.setCreatedDate(LocalDate.now());
         review.setUser(user);
         review.setRoom(room);
+        bookedRoom.setReview(true);
         reviewRepository.save(review);
     }
 

@@ -26,7 +26,7 @@ public class BookingResponse {
     private String bookingConfirmationCode;
     private Long ownerId;
     private Room room;
-
+    private boolean isReview;
 
     public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate, String guestName,
                            String guestEmail, String guestPhone, int numOfAdults, int numOfChildren,
@@ -44,36 +44,12 @@ public class BookingResponse {
         this.ownerId = ownerId;
         this.room = room;
     }
-
-    public BookingResponse(Long bookingId, LocalDate checkInDate,
-                           LocalDate checkOutDate, String guestFullName,
-                           String guestEmail, int numberOfAdults, int numberOfChildren, int totalNumOfGuests,
-                           String bookingConfirmationCode, RoomResponse room) {
-
-        this.id = bookingId;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.guestName = guestFullName;
-        this.guestEmail = guestEmail;
-        this.numOfAdults = numberOfAdults;
-        this.numOfChildren = numberOfChildren;
-        this.totalNumOfGuests = totalNumOfGuests;
-        this.bookingConfirmationCode = bookingConfirmationCode;
-        this.ownerId = room.getOwnerId();
-    }
-
-    public BookingResponse(Long bookingId, LocalDate checkInDate, LocalDate checkOutDate, String bookingConfirmationCode) {
-        this.id = bookingId;
-        this.checkInDate = checkInDate;
-        this.checkOutDate = checkOutDate;
-        this.bookingConfirmationCode = bookingConfirmationCode;
-    }
-
-        
         
 
 
-    public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate, String guestName, String guestEmail, String guestPhone,  int totalNumOfGuests, String bookingConfirmationCode, Long ownerId, Room room) {
+    public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate,
+                           String guestName, String guestEmail, String guestPhone,
+                           int totalNumOfGuests, String bookingConfirmationCode, Long ownerId, Room room, boolean isReview) {
         this.id = id;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -83,6 +59,7 @@ public class BookingResponse {
         this.bookingConfirmationCode = bookingConfirmationCode;
         this.ownerId = ownerId;
         this.room = room;
+        this.isReview = isReview;
     }
 
     public BookingResponse(Long bookingId, LocalDate checkInDate, LocalDate checkOutDate, String guestFullName, String guestEmail, int numberOfAdults, int numberOfChildren, int totalNumOfGuests, String bookingConfirmationCode, Room room, RoomResponse room1) {

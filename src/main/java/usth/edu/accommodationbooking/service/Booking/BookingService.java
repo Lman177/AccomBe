@@ -103,7 +103,8 @@ public class BookingService implements IBookingService {
                 bookedRoom.getTotalNumOfGuests(),
                 bookedRoom.getBookingConfirmationCode(),
                 bookedRoom.getRoom().getOwner().getId(),
-                bookedRoom.getRoom()
+                bookedRoom.getRoom(),
+                bookedRoom.isReview()
         )).collect(Collectors.toList());
     }
 
