@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ReviewResponse {
     private Long roomId;
-    private Long guestId;
+    private String guestName;
     private BigDecimal rating;
     private String comment;
     private LocalDate createdDate;

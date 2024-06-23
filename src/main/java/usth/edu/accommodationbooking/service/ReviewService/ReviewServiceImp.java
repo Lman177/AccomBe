@@ -52,7 +52,7 @@ public class ReviewServiceImp implements ReviewService{
         List<Review> reviews = reviewRepository.getReviewByRoomId(roomId);
         return reviews.stream().map(review -> new ReviewResponse(
                 review.getRoom().getId(),
-                review.getUser().getId(),
+                review.getUser().getFirstName(),
                 review.getRating(),
                 review.getComment(),
                 review.getCreatedDate()

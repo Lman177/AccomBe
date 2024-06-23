@@ -94,28 +94,28 @@ public class RoomController {
 //        return ResponseEntity.ok(roomResponses);
 //    }
 
-    @GetMapping("/all-rooms")
-    public ResponseEntity<Page<RoomResponse>> getAllRooms(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "size", defaultValue = "5") int size) throws SQLException, PhotoRetrievalException {
-
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Room> roomPage = roomService.getAllRooms(pageable);
-        List<RoomResponse> roomResponses = new ArrayList<>();
-
-        for (Room room : roomPage.getContent()) {
-            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
-            if (photoBytes != null && photoBytes.length > 0) {
-                String base64Photo = Base64.encodeBase64String(photoBytes);
-                RoomResponse roomResponse = getRoomResponse(room);
-                roomResponse.setPhoto(base64Photo);
-                roomResponses.add(roomResponse);
-            }
-        }
-
-        Page<RoomResponse> responsePage = new PageImpl<>(roomResponses, pageable, roomPage.getTotalElements());
-        return ResponseEntity.ok(responsePage);
-    }
+//    @GetMapping("/all-rooms")
+//    public ResponseEntity<Page<RoomResponse>> getAllRooms(
+//            @RequestParam(value = "page", defaultValue = "0") int page,
+//            @RequestParam(value = "size", defaultValue = "10") int size) throws SQLException, PhotoRetrievalException {
+//
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<Room> roomPage = roomService.getAllRooms(pageable);
+//        List<RoomResponse> roomResponses = new ArrayList<>();
+//
+//        for (Room room : roomPage.getContent()) {
+//            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+//            if (photoBytes != null && photoBytes.length > 0) {
+//                String base64Photo = Base64.encodeBase64String(photoBytes);
+//                RoomResponse roomResponse = getRoomResponse(room);
+//                roomResponse.setPhoto(base64Photo);
+//                roomResponses.add(roomResponse);
+//            }
+//        }
+//
+//        Page<RoomResponse> responsePage = new PageImpl<>(roomResponses, pageable, roomPage.getTotalElements());
+//        return ResponseEntity.ok(responsePage);
+//    }
 //    @GetMapping("/available")
 //    public ResponseEntity<List<RoomResponse>> getAvailableRooms() throws SQLException {
 //        List<Room> rooms = RoomService.getAvailableRooms();
