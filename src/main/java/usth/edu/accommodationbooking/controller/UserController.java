@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import usth.edu.accommodationbooking.model.User;
 import usth.edu.accommodationbooking.request.UserDto;
+import usth.edu.accommodationbooking.response.ProfitResponse;
+import usth.edu.accommodationbooking.service.Booking.BookingService;
 import usth.edu.accommodationbooking.service.Room.RoomServiceImpl;
 import usth.edu.accommodationbooking.service.User.IUserService;
 
@@ -22,6 +24,7 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
     private final RoomServiceImpl roomService;
+    private  final BookingService bookingService;
     @GetMapping("/all")
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<User>> getUsers(){
@@ -90,4 +93,10 @@ public class UserController {
     }
 
 
+
+    @GetMapping("/owner/profit/{ownerId}")
+    public ResponseEntity<List<ProfitResponse>> getProfit(@PathVariable Long ownerId){
+        List<ProfitResponse> profitList = userService.getProfitByOwner(ownerId);
+        return new ResponseEntity<>(profitList, HttpStatus.OK);
+    }
 }

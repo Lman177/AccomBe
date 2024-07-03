@@ -25,4 +25,18 @@ public class ProfitRepositoryImp implements ProfitRepository{
         TypedQuery<ProfitResponse> query = entityManager.createQuery(jpql, ProfitResponse.class);
         return query.getResultList();
     }
+
+    @Override
+    public List<ProfitResponse> getProfitByOwner(Long ownerId) {
+        String jpql = "SELECT new usth.edu.accommodationbooking.response.ProfitResponse(" +
+                "r.owner.id, " +
+                "EXTRACT(YEAR FROM br.checkInDate), " +
+                "EXTRACT(MONTH FROM br.checkInDate), " +
+                "SUM(br.Price)) " +
+                "FROM BookedRoom br JOIN br.room r  where r.owner.id = :id " +
+                "GROUP BY r.owner.id , EXTRACT(YEAR FROM br.checkInDate), EXTRACT(MONTH FROM br.checkInDate)";
+        TypedQuery<ProfitResponse> query = entityManager.createQuery(jpql, ProfitResponse.class);
+        query.setParameter("id", ownerId);
+        return query.getResultList();
+    }
 }

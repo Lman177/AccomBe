@@ -7,4 +7,6 @@ import java.util.List;
 public interface ProfitRepository {
 
     List<ProfitResponse> getProfit();
+
+    List<ProfitResponse> getProfitByOwner(Long ownerId);
 }

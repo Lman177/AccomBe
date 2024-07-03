@@ -11,10 +11,12 @@ import usth.edu.accommodationbooking.exception.UserAlreadyExistsException;
 import usth.edu.accommodationbooking.model.Role;
 import usth.edu.accommodationbooking.model.Room;
 import usth.edu.accommodationbooking.model.User;
+import usth.edu.accommodationbooking.repository.ProfitRepository;
 import usth.edu.accommodationbooking.repository.RoleRepository;
 import usth.edu.accommodationbooking.repository.RoomRepository;
 import usth.edu.accommodationbooking.repository.UserRepository;
 import usth.edu.accommodationbooking.request.UserDto;
+import usth.edu.accommodationbooking.response.ProfitResponse;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -28,6 +30,7 @@ public class UserService implements IUserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final RoomRepository roomRepository;
+    private final ProfitRepository profitRepository;
 
     @Override
     public void registerUser(User user) {
@@ -104,6 +107,11 @@ public class UserService implements IUserService {
     @Override
     public Integer countAllUser(){
         return userRepository.countAllUser();
+    }
+
+    @Override
+    public List<ProfitResponse> getProfitByOwner(Long ownerId){
+        return profitRepository.getProfitByOwner(ownerId);
     }
 
 }
