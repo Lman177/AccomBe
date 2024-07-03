@@ -74,4 +74,20 @@ public class UserController {
     public Integer countAllUser(){
         return userService.countAllUser();
     }
+
+    @PostMapping("/update")
+    public ResponseEntity<String> updateUserProfile(@RequestParam String userEmail,
+                                                    @RequestParam String firstName,
+                                                    @RequestParam String phoneNumber,
+                                                    @RequestParam String password) {
+        try {
+            userService.modifyUser(userEmail, firstName, phoneNumber, password);
+            return ResponseEntity.ok("User updated successfully");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating user: " + e.getMessage());
+        }
+    }
+
+
 }

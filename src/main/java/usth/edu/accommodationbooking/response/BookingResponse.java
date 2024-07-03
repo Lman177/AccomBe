@@ -27,6 +27,7 @@ public class BookingResponse {
     private Long ownerId;
     private Room room;
     private boolean isReview;
+    private Integer Price;
 
     public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate, String guestName,
                            String guestEmail, String guestPhone, int numOfAdults, int numOfChildren,
@@ -62,7 +63,10 @@ public class BookingResponse {
         this.isReview = isReview;
     }
 
-    public BookingResponse(Long bookingId, LocalDate checkInDate, LocalDate checkOutDate, String guestFullName, String guestEmail, int numberOfAdults, int numberOfChildren, int totalNumOfGuests, String bookingConfirmationCode, Room room, RoomResponse room1) {
+    public BookingResponse(Long bookingId, LocalDate checkInDate, LocalDate checkOutDate,
+                           String guestFullName, String guestEmail, int numberOfAdults,
+                           int numberOfChildren, int totalNumOfGuests, String bookingConfirmationCode,
+                           Room room, RoomResponse room1, Integer Price) {
     this.id = bookingId;
     this.checkInDate = checkInDate;
     this.checkOutDate = checkOutDate;
@@ -74,6 +78,7 @@ public class BookingResponse {
     this.bookingConfirmationCode = bookingConfirmationCode;
     this.room = room;
     this.ownerId = room1.getOwnerId();
+    this.Price = Price;
 
     }
 

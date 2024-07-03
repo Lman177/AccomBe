@@ -157,5 +157,9 @@ public class BookingService implements IBookingService {
         return profitRepository.getProfit();
     }
 
+    @Override
+    public Integer countProfit(){
+        return bookingRepository.countProfit();
+    }
 
 }

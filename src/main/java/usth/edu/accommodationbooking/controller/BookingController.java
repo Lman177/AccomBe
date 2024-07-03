@@ -77,7 +77,7 @@ public class BookingController {
                 booking.getCheckOutDate(),booking.getGuestFullName(),
                 booking.getGuestEmail(), booking.getNumberOfAdults(),
                 booking.getNumberOfChildren(), booking.getTotalNumOfGuests(),
-                booking.getBookingConfirmationCode(), booking.getRoom(), room);
+                booking.getBookingConfirmationCode(), booking.getRoom(), room, booking.getPrice());
     }
 
     @GetMapping("/get")
@@ -90,6 +90,11 @@ public class BookingController {
     public ResponseEntity<List<ProfitResponse>> getProfit(){
         List<ProfitResponse> profitList = bookingService.getProfit();
         return new ResponseEntity<>(profitList, HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue")
+    public ResponseEntity<Integer> getRevenue(){
+        return new ResponseEntity<>(bookingService.countProfit(), HttpStatus.OK);
     }
 
 

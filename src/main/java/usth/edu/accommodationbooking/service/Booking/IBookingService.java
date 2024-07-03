@@ -25,4 +25,6 @@ public interface IBookingService {
     List<BookingResponse> findBookingOfOwner(HttpServletRequest request);
 
     List<ProfitResponse> getProfit();
+
+    Integer countProfit();
 }

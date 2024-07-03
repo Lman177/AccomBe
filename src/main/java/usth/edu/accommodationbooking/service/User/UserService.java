@@ -48,6 +48,16 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void modifyUser(String userEmail, String firstName, String phoneNumber, String password) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        user.setFirstName(firstName);
+        user.setPhoneNumber(phoneNumber);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setCreatedAt(LocalDate.now());
+        userRepository.save(user);
+    }
+    @Override
     public List<User> getUsers() {
         return userRepository.findAll();
     }

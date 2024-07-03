@@ -22,4 +22,6 @@ public interface BookingRepository extends JpaRepository<BookedRoom, Long> {
     @Query("select  b from BookedRoom  b left join Room r on b.room.id = r.id where r.owner.id = :id")
     List<BookedRoom> findBookingOfOwner(Long id);
 
+    @Query("Select sum(b.Price) from BookedRoom b where b.checkOutDate < current_date ")
+    Integer countProfit();
 }

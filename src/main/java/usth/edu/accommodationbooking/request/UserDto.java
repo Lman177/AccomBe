@@ -15,4 +15,5 @@ public class UserDto {
     private String phoneNumber;
     private String email;
     private LocalDate createdAt;
+    private String password;
 }

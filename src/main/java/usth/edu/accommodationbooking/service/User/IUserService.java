@@ -7,6 +7,14 @@ import java.util.List;
 
 public interface IUserService{
     void registerUser(User user);
+
+
+
+
+
+
+    void modifyUser(String userEmail, String firstName, String phoneNumber, String password);
+
     List<User> getUsers();
     void deleteUser(String email);
     User getUser(String email);

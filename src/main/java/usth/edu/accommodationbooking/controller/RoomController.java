@@ -160,11 +160,7 @@ public class RoomController {
         Optional<Room> theRoom = roomService.getRoomById(roomId);
         return theRoom.map(room -> {
             RoomResponse roomResponse = null;
-            try {
-                roomResponse = getRoomResponse(room);
-            } catch (PhotoRetrievalException e) {
-                throw new RuntimeException(e);
-            }
+            roomResponse = getRoomResponse(room);
             return  ResponseEntity.ok(Optional.of(roomResponse));
         }).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
     }
@@ -226,24 +222,39 @@ public class RoomController {
     }
 
 
-    private RoomResponse getRoomResponse(Room room) throws PhotoRetrievalException {
-        // Fetch bookings (assuming they are necessary for additional processing not shown here)
+
+    @GetMapping("/all-rooms")
+    public ResponseEntity<Page<RoomResponse>> getAllRooms(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size) throws SQLException {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Room> roomPage = roomService.getAllRooms(pageable);
+        List<RoomResponse> roomResponses = new ArrayList<>();
+
+        for (Room room : roomPage.getContent()) {
+            try {
+                roomResponses.add(getRoomResponse(room));
+            } catch (Exception e) {
+                throw new RuntimeException("Error processing room responses", e);
+            }
+        }
+
+        Page<RoomResponse> responsePage = new PageImpl<>(roomResponses, pageable, roomPage.getTotalElements());
+        return ResponseEntity.ok(responsePage);
+    }
+
+    private RoomResponse getRoomResponse(Room room) {
+        // Fetch bookings
         List<BookedRoom> bookings = getAllBookingsByRoomId(room.getId());
         bookings = (bookings != null) ? bookings : Collections.emptyList();
 
         // Handling photo
-        byte[] photoBytes = null;
-        Blob photoBlob = room.getPhoto();
-        if (photoBlob != null) {
-            try {
-                photoBytes = photoBlob.getBytes(1, (int) photoBlob.length());
-            } catch (SQLException e) {
-                log.error("Error retrieving photo for room ID {}: {}", room.getId(), e.getMessage());                throw new PhotoRetrievalException("Error retrieving photo", e);
-            }
-        }
+        byte[] photoBytes = getRoomPhoto(room);
 
         // Calculate average rating
         BigDecimal averageRating = calculateAverageRating(room.getReviews());
+
         // Return a new RoomResponse object
         return new RoomResponse(
                 room.getId(),
@@ -254,25 +265,34 @@ public class RoomController {
                 room.getRoomLocation(),
                 room.getRoomAddress(),
                 photoBytes,
-                room.getOwner().getId(), // Check this method or adjust according to your model
+                room.getOwner().getId(),
                 room.getRoomCapacity(),
                 averageRating);
     }
 
-    /**
-     * Calculate the average rating from a list of reviews.
-     * Now returns BigDecimal for consistency with your constructor.
-     */
+    private byte[] getRoomPhoto(Room room) {
+        Blob photoBlob = room.getPhoto();
+        if (photoBlob != null) {
+            try {
+                return photoBlob.getBytes(1, (int) photoBlob.length());
+            } catch (SQLException e) {
+                log.error("Error retrieving photo for room ID {}: {}", room.getId(), e.getMessage());
+                throw new RuntimeException("Error retrieving photo", e);
+            }
+        }
+        return null;
+    }
+
     private BigDecimal calculateAverageRating(List<Review> reviews) {
         if (reviews == null || reviews.isEmpty()) {
-            return null; // No reviews available
+            return null;
         }
         double average = reviews.stream()
                 .mapToDouble(review -> review.getRating().doubleValue())
                 .average()
-                .orElse(Double.NaN); // Return NaN if no reviews present
-
-        return BigDecimal.valueOf(average).setScale(1, RoundingMode.HALF_UP);    }
+                .orElse(Double.NaN);
+        return BigDecimal.valueOf(average).setScale(1, RoundingMode.HALF_UP);
+    }
 
     private List<BookedRoom> getAllBookingsByRoomId(Long roomId) {
         return bookingService.getAllBookingsByRoomId(roomId);
