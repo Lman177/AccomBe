@@ -128,6 +128,12 @@
                         <exclude>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
+                            <source>17</source>
+                            <target>17</target>
+                            <compilerArgs>
+                                <arg>-parameters</arg>
+                                <arg>17</arg>
+                            </compilerArgs>
                         </exclude>
                     </excludes>
                 </configuration>
