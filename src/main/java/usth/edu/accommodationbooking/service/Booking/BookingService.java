@@ -44,7 +44,8 @@ public class BookingService implements IBookingService {
                 bookedRoom.getTotalNumOfGuests(),
                 bookedRoom.getBookingConfirmationCode(),
                 bookedRoom.getRoom().getOwner().getId(),
-                bookedRoom.getRoom()
+                bookedRoom.getRoom(),
+                bookedRoom.getPrice()
         )).collect(Collectors.toList());
 
     }
@@ -148,7 +149,8 @@ public class BookingService implements IBookingService {
                 bookedRoom.getTotalNumOfGuests(),
                 bookedRoom.getBookingConfirmationCode(),
                 bookedRoom.getRoom().getOwner().getId(),
-                bookedRoom.getRoom()
+                bookedRoom.getRoom(),
+                bookedRoom.getPrice()
         )).collect(Collectors.toList());
     }
 

@@ -28,10 +28,12 @@ public class BookingResponse {
     private Room room;
     private boolean isReview;
     private Integer Price;
+    private String roomLocation;
+    private String roomType;
 
     public BookingResponse(Long id, LocalDate checkInDate, LocalDate checkOutDate, String guestName,
                            String guestEmail, String guestPhone, int numOfAdults, int numOfChildren,
-                           int totalNumOfGuests, String bookingConfirmationCode, Long ownerId, Room room) {
+                           int totalNumOfGuests, String bookingConfirmationCode, Long ownerId, Room room, Integer Price) {
         this.id = id;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -44,6 +46,8 @@ public class BookingResponse {
         this.bookingConfirmationCode = bookingConfirmationCode;
         this.ownerId = ownerId;
         this.room = room;
+        this.Price = Price;
+
     }
         
 
